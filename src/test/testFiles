@@ -1,0 +1,3 @@
+${BLD_EXP_OBJ_DIR}/client${BLD_OBJ}
+${BLD_EXP_OBJ_DIR}/url${BLD_OBJ}
+${BLD_EXP_OBJ_DIR}/crypt${BLD_OBJ}

@@ -1,0 +1,1307 @@
+<HTML>
+<HEAD>
+<TITLE>doc/reference</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#overview">OVERVIEW</A></LI>
+	<LI><A HREF="#syntax">SYNTAX</A></LI>
+	<LI><A HREF="#global parameters">GLOBAL PARAMETERS</A></LI>
+	<UL>
+
+		<LI><A HREF="#workdir">WorkDir</A></LI>
+	</UL>
+
+	<LI><A HREF="#optional global parameters">OPTIONAL GLOBAL PARAMETERS</A></LI>
+	<UL>
+
+		<LI><A HREF="#htmldir">HtmlDir</A></LI>
+		<LI><A HREF="#imagedir">ImageDir</A></LI>
+		<LI><A HREF="#logdir">LogDir</A></LI>
+		<LI><A HREF="#forks (unix only)">Forks (UNIX only)</A></LI>
+		<LI><A HREF="#refresh">Refresh</A></LI>
+		<LI><A HREF="#interval">Interval</A></LI>
+		<LI><A HREF="#writeexpires">WriteExpires</A></LI>
+		<LI><A HREF="#nomib2">NoMib2</A></LI>
+		<LI><A HREF="#singlerequest">SingleRequest</A></LI>
+		<LI><A HREF="#snmpoptions">SnmpOptions</A></LI>
+		<LI><A HREF="#icondir">IconDir</A></LI>
+		<LI><A HREF="#loadmibs">LoadMIBs</A></LI>
+		<LI><A HREF="#language">Language</A></LI>
+		<LI><A HREF="#logformat">LogFormat</A></LI>
+		<LI><A HREF="#libadd">LibAdd</A></LI>
+		<LI><A HREF="#pathadd">PathAdd</A></LI>
+		<LI><A HREF="#runasdaemon">RunAsDaemon</A></LI>
+	</UL>
+
+	<LI><A HREF="#per target configuration">PER TARGET CONFIGURATION</A></LI>
+	<UL>
+
+		<LI><A HREF="#target">Target</A></LI>
+		<LI><A HREF="#routeruptime">RouterUptime</A></LI>
+		<LI><A HREF="#maxbytes">MaxBytes</A></LI>
+		<LI><A HREF="#maxbytes1">MaxBytes1</A></LI>
+		<LI><A HREF="#maxbytes2">MaxBytes2</A></LI>
+		<LI><A HREF="#title">Title</A></LI>
+		<LI><A HREF="#pagetop">PageTop</A></LI>
+	</UL>
+
+	<LI><A HREF="#optional per target parameters">OPTIONAL PER TARGET PARAMETERS</A></LI>
+	<UL>
+
+		<LI><A HREF="#pagefoot">PageFoot</A></LI>
+		<LI><A HREF="#addhead">AddHead</A></LI>
+		<LI><A HREF="#bodytag">BodyTag</A></LI>
+		<LI><A HREF="#absmax">AbsMax</A></LI>
+		<LI><A HREF="#unscaled">Unscaled</A></LI>
+		<LI><A HREF="#withpeak">WithPeak</A></LI>
+		<LI><A HREF="#suppress">Suppress</A></LI>
+		<LI><A HREF="#extension">Extension</A></LI>
+		<LI><A HREF="#directory">Directory</A></LI>
+		<LI><A HREF="#xsize and ysize">XSize and YSize</A></LI>
+		<LI><A HREF="#xzoom and yzoom">XZoom and YZoom</A></LI>
+		<LI><A HREF="#xscale and yscale">XScale and YScale</A></LI>
+		<LI><A HREF="#ytics and yticsfactor">YTics and YTicsFactor</A></LI>
+		<LI><A HREF="#factor">Factor</A></LI>
+		<LI><A HREF="#step">Step</A></LI>
+		<LI><A HREF="#options">Options</A></LI>
+		<LI><A HREF="#kilo">kilo</A></LI>
+		<LI><A HREF="#kmg">kMG</A></LI>
+		<LI><A HREF="#colours">Colours</A></LI>
+		<LI><A HREF="#background">Background</A></LI>
+		<LI><A HREF="#ylegend, shortlegend, legend[1234]">YLegend, ShortLegend, Legend[1234]</A></LI>
+		<LI><A HREF="#timezone">Timezone</A></LI>
+		<LI><A HREF="#weekformat">Weekformat</A></LI>
+		<LI><A HREF="#setenv">SetEnv</A></LI>
+	</UL>
+
+	<LI><A HREF="#threshold checking">THRESHOLD CHECKING</A></LI>
+	<UL>
+
+		<LI><A HREF="#threshdir (global)">ThreshDir (GLOBAL)</A></LI>
+		<LI><A HREF="#threshmini (per target)">ThreshMinI  (PER TARGET)</A></LI>
+		<LI><A HREF="#threshmaxi (per target)">ThreshMaxI (PER TARGET)</A></LI>
+		<LI><A HREF="#threshdesc (per target)">ThreshDesc (PER TARGET)</A></LI>
+		<LI><A HREF="#threshprogi (per target)">ThreshProgI  (PER TARGET)</A></LI>
+		<LI><A HREF="#threshprogoki (per target)">ThreshProgOKI  (PER TARGET)</A></LI>
+		<LI><A HREF="#threshmino, threshmaxo, threshprogo, and threshprogoko">ThreshMinO, ThreshMaxO, ThreshProgO, and ThreshProgOKO</A></LI>
+	</UL>
+
+	<LI><A HREF="#per target default values">PER TARGET DEFAULT VALUES</A></LI>
+	<UL>
+
+		<LI><A HREF="#pre and postfix">Pre- and Postfix</A></LI>
+		<LI><A HREF="#default values">Default Values</A></LI>
+	</UL>
+
+	<LI><A HREF="#command line options">COMMAND LINE OPTIONS</A></LI>
+	<LI><A HREF="#examples">EXAMPLES</A></LI>
+	<UL>
+
+		<LI><A HREF="#minimal mrtg.cfg">Minimal mrtg.cfg</A></LI>
+		<LI><A HREF="#cfg for several routers.">Cfg for several Routers.</A></LI>
+	</UL>
+
+	<LI><A HREF="#author">AUTHOR</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>reference - MRTG 2.9.17 configuration reference</P>
+<P>
+<HR>
+<H1><A NAME="overview">OVERVIEW</A></H1>
+<P>The runtime behaviour of MRTG is governed by a configuration file. Run of
+the mill configuration files can be generated with <STRONG>cfgmaker</STRONG>. (Check
+<A HREF="cfgmaker.html">the cfgmaker manpage</A>). But for more elaborate configurations some hand tuning is
+required.</P>
+<P>This document describes all the configuration options understud by
+the mrtg software.</P>
+<P>
+<HR>
+<H1><A NAME="syntax">SYNTAX</A></H1>
+<P>MRTG configuration file syntax follows some simple rules:</P>
+<UL>
+<LI>
+Keywords must start at the beginning of a line.
+<P></P>
+<LI>
+Lines which follow a keyword line which do start
+with a blank are appended to the keyword line
+<P></P>
+<LI>
+Empty Lines are ignored
+<P></P>
+<LI>
+Lines starting with a # sign are comments.
+<P></P>
+<LI>
+You can add other files into the configuration file using
+<P><STRONG>Include:</STRONG> <EM>file</EM></P>
+<P>Example:</P>
+<PRE>
+ Include: base-options.inc</PRE>
+<P></P></UL>
+<P>
+<HR>
+<H1><A NAME="global parameters">GLOBAL PARAMETERS</A></H1>
+<P>
+<H2><A NAME="workdir">WorkDir</A></H2>
+<P>WorkDir specifies where the logfiles and the webpages should
+be created.</P>
+<P>Example:</P>
+<PRE>
+ WorkDir: /usr/tardis/pub/www/stats/mrtg</PRE>
+<P>
+<HR>
+<H1><A NAME="optional global parameters">OPTIONAL GLOBAL PARAMETERS</A></H1>
+<P>
+<H2><A NAME="htmldir">HtmlDir</A></H2>
+<P>HtmlDir specifies the directory where the html (or shtml,
+but we'll get on to those later,) lives.</P>
+<P>NOTE: Workdir overides the settings for htmldir, imagedir
+      and logdir</P>
+<P>Example:</P>
+<PRE>
+ Htmldir: /www/mrtg/</PRE>
+<P>
+<H2><A NAME="imagedir">ImageDir</A></H2>
+<P>ImageDir specifies the directory where the images live, they
+should be under the html directory.</P>
+<P>Example:</P>
+<PRE>
+ Imagedir: /www/mrtg/images</PRE>
+<P>
+<H2><A NAME="logdir">LogDir</A></H2>
+<P>LogDir specifies the directory where the logs are stored.
+This need not be under htmldir directive.</P>
+<P>Example:</P>
+<PRE>
+ Logdir: /www/mrtg/logs</PRE>
+<P>
+<H2><A NAME="forks (unix only)">Forks (UNIX only)</A></H2>
+<P>An a system that can fork (UNIX for example) mrtg can fork itself into multiple
+instances while it is acquiring data via snmp.</P>
+<P>For situations with high latency or a great number of devices
+this will speed things up considerably. It will not make things faster
+though if you query a single switch sitting next door.</P>
+<P>As far as I know NT can not fork so this option is not available on NT.</P>
+<P>Example:
+</P>
+<PRE>
+
+ Forks: 4</PRE>
+<P>
+<H2><A NAME="refresh">Refresh</A></H2>
+<P>How many seconds apart should the browser (Netscape) be
+instructed to reload the page? If this is not defined, the
+default is 300 seconds (5 minutes).</P>
+<P>Example:</P>
+<PRE>
+ Refresh: 600</PRE>
+<P>
+<H2><A NAME="interval">Interval</A></H2>
+<P>How often do you call mrtg? The default is 5 minutes. If
+you call it less often, you should specify it here. This
+does two things:</P>
+<UL>
+<LI>
+the generated HTML page does contain the right
+information about the calling interval ...
+<P></P>
+<LI>
+a META header in the generated HTML page will instruct
+caches about the time to live of this page .....
+<P></P></UL>
+<P>In this example we tell mrtg that we will be calling it
+every 10 minutes. If you are calling mrtg every 5
+minutes, you can leave this line commented out.</P>
+<P>Example:</P>
+<PRE>
+ Interval: 10</PRE>
+<P>
+<H2><A NAME="writeexpires">WriteExpires</A></H2>
+<P>With this switch mrtg will generate .meta files for CERN
+and Apache servers which contain Expiration tags for the
+html and gif files. The *.meta files will be created in
+the same directory as the other files, so you will have
+to set ``MetaDir .'' and ``MetaFiles on''
+in your apache.conf or .htaccess file for this to work</P>
+<P>NOTE: If you are running Apache-1.2 or later, you can use the mod_expire
+to achieve the same effect ... see the file htaccess.txt</P>
+<P>Example:</P>
+<PRE>
+ WriteExpires: Yes</PRE>
+<P>
+<H2><A NAME="nomib2">NoMib2</A></H2>
+<P>Normally we ask the SNMP device for 'sysUptime', 'sysName' properties
+some do not have these. If you want to avoid getting complaints from
+mrtg about these missing properties, specivy the nomib2 option.</P>
+<P>An example of agents which do not implement base mib2 attributes are
+Computer Associates - Unicenter TNG Agents.  CA relies on using the base
+OS SNMP agent in addition to its own agents to supplement the management
+of a system.</P>
+<P>Example:</P>
+<PRE>
+ NoMib2: Yes</PRE>
+<P>
+<H2><A NAME="singlerequest">SingleRequest</A></H2>
+<P>Some SNMP implementations can not deal with requests asking for
+multiple snmp variables in one go. Set this in your cfg file to force
+mrtg to only ask for one variable per request.</P>
+<P>Examples</P>
+<PRE>
+ SingleRequest: Yes</PRE>
+<P>
+<H2><A NAME="snmpoptions">SnmpOptions</A></H2>
+<P>Apart form the per target timeout options, you can also configure the
+behaviour of the snmpget process on a more profound level. SnmpOptions
+accepts a hash of options. The following options are currently supported:</P>
+<PRE>
+ timeout                   =&gt; $default_timeout,
+ retries                   =&gt; $default_retries,
+ backoff                   =&gt; $default_backoff,
+ default_max_repetitions   =&gt; $max_repetitions,
+ lenient_source_port_matching =&gt; 0,
+ lenient_source_address_matching =&gt; 1</PRE>
+<P>The values behind the options indicate the current default value.
+Note that these settings OVERRIDE the per target timeout settings.</P>
+<P>Example:</P>
+<P>SnmpOptions: retries =&gt; 2, only_ip_address_matching =&gt; 0</P>
+<P>Note that AS/400 snmp seesm to be broken in a way which prevents mrtg from
+working with it unless</P>
+<PRE>
+ SnmpOptions: lenient_source_port_matching =&gt; 1</PRE>
+<P>is set.</P>
+<P>
+<H2><A NAME="icondir">IconDir</A></H2>
+<P>If you want to keep the mrtg icons in some place other than the
+working (or imagedir) directory, use the <EM>IconDir</EM> variable for
+defining the url to the icons directory.</P>
+<P>Example:</P>
+<PRE>
+ IconDir: /mrtgicons/</PRE>
+<P>
+<H2><A NAME="loadmibs">LoadMIBs</A></H2>
+<P>Load the MIB <CODE>file(s)</CODE> specified and make its OIDs available as
+symbolic names. For better efficiancy, a cache of MIBs is maintained
+in the WorkDir.</P>
+<P>Example:</P>
+<PRE>
+ LoadMIBs: /dept/net/mibs/netapp.mib,/usr/local/lib/ft100m.mib</PRE>
+<P>
+<H2><A NAME="language">Language</A></H2>
+<P>Switch output format to the selected Language (Check the <EM>translate</EM> directory
+to see which languages are supported at the moment. In this directory you
+can also find instructions on how to create new translations).</P>
+<P>Currently the following laguages are supported: big5, brazilian, bulgarian,
+catalan, chinese, czech, danish, dutch, eucjp, french, galician, gb, gb2312,
+german, greek, hungarian, icelandic, iso2022jp, italian, korean, lithuanian,
+malay, norwegian, polish, romanian, russian, serbian, slovak, slovenian,
+spanish, swedish, turkish</P>
+<P>Example:</P>
+<PRE>
+ Language: danish</PRE>
+<P>
+<H2><A NAME="logformat">LogFormat</A></H2>
+<P>Setting LogFormat to 'rrdtool' in your mrtg.cfg file enables rrdtool mode.
+In rrdtool mode, mrtg relies on <STRONG>rrdtool</STRONG> to do its logging. Graphs and html
+pages will be generated on the fly by the 14all.cgi which can be found in
+the contrib section together with a short readme ... This feature has been
+contributed by <A HREF="mailto:Rainer.Bawidamann@informatik.uni-ulm.de.">Rainer.Bawidamann@informatik.uni-ulm.de.</A> Please check his
+website for more information: <A HREF="http://www.uni-ulm.de/~rbawidam/mrtg-rrd/">http://www.uni-ulm.de/~rbawidam/mrtg-rrd/</A></P>
+<P>Example:</P>
+<PRE>
+ LogFormat: rrdtool</PRE>
+<P>
+<H2><A NAME="libadd">LibAdd</A></H2>
+<P>If you are using rrdtool mode and your <STRONG>rrdtool</STRONG> Perl module (RRDs.pm)
+is not installed in a location where perl can find it on its own, you can
+use LibAdd to supply an appropriate path.</P>
+<P>Example:</P>
+<PRE>
+ LibAdd: /usr/local/rrdtool/lib/perl/</PRE>
+<P>
+<H2><A NAME="pathadd">PathAdd</A></H2>
+<P>If the <STRONG>rrdtool</STRONG> executable can not be found in the normal <CODE>PATH</CODE>, you can use
+this parameter to add a suitable directory to your path.</P>
+<P>Example:</P>
+<PRE>
+ PathAdd: /usr/local/rrdtool/bin/</PRE>
+<P>
+<H2><A NAME="runasdaemon">RunAsDaemon</A></H2>
+<P>The RunAsDaemon keyword enables daemon mode operation. The purpose of daemon
+mode is that MRTG is launched once and not at regular basis by cron as in
+native mode. This behavior saves computing resourses as loading and parsing
+of configuration files only hapens once.</P>
+<P>Using daemon mode MRTG itself is responible for timing the measurement
+intervals. Therfore its important to set the Interval keyword to an
+apropiate value.</P>
+<P>Note that using daemon mode MRTG should no longer be started from cron by
+regular basis as each started process runs forever. Instead MRTG should be
+started from the command prompt or by a system startup script.</P>
+<P>If you want mrtg to run under a particular user and group (it is not recomented to run
+MRTG as root) then you can use the <STRONG>--user=</STRONG><EM>user_name</EM> and <STRONG>--group=</STRONG><EM>group_name</EM>
+options on the mrtg commandline.
+</P>
+<PRE>
+
+ mrtg --user=mrtg_user --group=mrtg_group mrtg.cfg</PRE>
+<P>Also note that in daemon mode restart of the process is required in order to
+activate changes in the config file.</P>
+<P>Under UNIX, the Daemon switch causes mrtg to fork into background after
+checking its config file. On Windows NT the MRTG process will detach from
+the console, but because the NT/2000 shell waits for its children you have to
+use the special start sequence when you launch the program:</P>
+<PRE>
+ start /b perl mrtg mrtg.cfg</PRE>
+<P>You may have to add path information equal to what you add when you run mrtg
+from the commandline.</P>
+<P>Example</P>
+<PRE>
+ RunAsDaemon:Yes
+ Interval:5</PRE>
+<P>Makes MRTG run as a daemon beginning data collection every 5 minutes</P>
+<P>
+<HR>
+<H1><A NAME="per target configuration">PER TARGET CONFIGURATION</A></H1>
+<P>Each monitoring target must be identified by a unique name. This
+name must be appended to each parameter belonging to the same
+target. The name will also be used for naming the
+generated webpages, logfiles and images for this target.</P>
+<P>
+<H2><A NAME="target">Target</A></H2>
+<P>With the <EM>Target</EM> keyword you tell mrtg what it should
+monitor. The <EM>Target</EM> keyword takes arguments in a wide
+range of formats:</P>
+<DL>
+<DT><STRONG><A NAME="item_Basic">Basic</A></STRONG><BR>
+<DD>
+The most basic format is ``port:community@router''
+This will generate a traffic graph for the interface 'port'
+of the host 'router' (dns name or IP address)
+and it will use the community 'community' (snmp password)
+for the snmp query.
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: 2:public@wellfleet-fddi.ethz.ch</PRE>
+<P>If your community contains a ``@'' or a `` '' these characters
+mus be escaped with a ``\''.</P>
+<PRE>
+ Target[bla]: 2:stu\ pi\@d@router</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_SNMPv2c">SNMPv2c</A></STRONG><BR>
+<DD>
+If you have a fast router you might want to try to poll the ifHC* counters.
+This feature gets activated by switching to SNMPv2c. Unfortunately not all
+devices support SNMPv2c yet. If it works, this will prevent your counters
+from wraping within the 5 minute polling interval. As we now use 64 bit
+instead of the normal 32 bit.
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: 2:public@router1:::::2</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Reversing">Reversing</A></STRONG><BR>
+<DD>
+Sometimes you are sitting on the wrong side of the
+link, and you would like to have mrtg report Incoming
+traffic as outgoing and vice versa. This can be achieved
+by adding the '-' sign in front of the ``Target''
+description. It flips the incoming and outgoing traffic rates.
+<P>Example:</P>
+<PRE>
+ Target[ezci]: -1:public@ezci-ether.ethz.ch</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Explicit_OIDs">Explicit OIDs</A></STRONG><BR>
+<DD>
+You can also explicitly define the OID to query by using the
+following syntax 'OID_1&amp;OID_2:community@router'
+The following example will retrieve error counts for input and output
+on interface 1.  MRTG needs to graph two variables,
+so you need to specify two OID's such as temperature and humidity
+or error input and error output.
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14.1&amp;1.3.6.1.2.1.2.2.1.20.1:public@myrouter</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_MIB_Variables">MIB Variables</A></STRONG><BR>
+<DD>
+MRTG knows a number of symbolical SNMP variable names.
+See the file mibhelp.txt for a list of known names.
+One example are the ifInErrors and ifOutErrors.
+This means you can specify the above as:
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: ifInErrors.1&amp;ifOutErrors.1:public@myrouter</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Interface_by_IP">Interface by IP</A></STRONG><BR>
+<DD>
+Sometimes SNMP interface index can change, like when new interfaces are
+added or removed. This can cause all Target entries in your config file
+to become wrong by offset, causing MRTG to graphs wrong instances etc.
+MRTG supports IP address instead of ifindex in target definition. Then
+MRTG will query snmp device and try to map IP address to current ifindex,
+You can use IP address in every type of target definition, by adding
+IP address of the numbered interface after OID and separation char '/'
+<P>Make sure that given IP address is used on your same target router,
+your same target router, especially when graphing two different OIDs
+and/or interface split by '&amp;' delimiter.</P>
+<P>You can tell cfgmaker to generate such references with the option
+<STRONG>--ifref=ip</STRONG>.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: /1.2.3.4:public@wellfleet-fddi.ethz.ch
+ Target[ezci]: -/1.2.3.4:public@ezci-ether.ethz.ch
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14/1.2.3.4&amp;1.3.6.1.2.1.2.2.1.14/1.2.3.4:public@myrouter
+ Target[ezwf]: ifInErrors/1.2.3.4&amp;ifOutErrors/1.2.3.4:public@myrouter</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Interface_by_Description">Interface by Description</A></STRONG><BR>
+<DD>
+If you can not use IP addresses you might want to use
+the interface names. This works similar to the IP address aproach
+only that the prefix to use is a \ instead of a /
+<P>You can tell cfgmaker to generate such references with the option
+<STRONG>--ifref=descr</STRONG>.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: \My-Interface2:public@wellfleet-fddi.ethz.ch
+ Target[ezci]: -\My-Interface2:public@ezci-ether.ethz.ch
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14\My-Interface2&amp;1.3.6.1.2.1.2.2.1.14\My-Interface3:public@myrouter
+ Target[ezwf]: ifInErrors\My-Interface2&amp;ifOutErrors\My-Interface3:public@myrouter</PRE>
+<P>If your description contains a ``&amp;'', a ``:'', a ``@'' or a `` '' you can include
+them but you must escape with a backlash:</P>
+<PRE>
+ Target[ezwf]: \fun\: \ ney\&amp;ddd:public@hello.router</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Interface_by_Name">Interface by Name</A></STRONG><BR>
+<DD>
+The only sensible way to reference interfaces of your switches.
+<P>You can tell cfgmaker to generate such references with the option
+<STRONG>--ifref=name</STRONG>.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: #2/11:public@wellfleet-fddi.ethz.ch
+ Target[ezci]: -#2/11:public@ezci-ether.ethz.ch
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14#3/7&amp;1.3.6.1.2.1.2.2.1.14#3/7:public@myrouter
+ Target[ezwf]: ifInErrors#3/7&amp;ifOutErrors#3/7:public@myrouter</PRE>
+<P>If your description contains a ``&amp;'', a ``:'', a ``@'' or a `` '' you can include them but you must escape with
+a backlash:</P>
+<PRE>
+ Target[ezwf]: #\: \ fun:public@hello.router</PRE>
+<P><EM>Note that the # sign will be interpreted as a comment character if
+it is the first non white-space character on the line.</EM></P>
+<P></P>
+<DT><STRONG><A NAME="item_Interface_by_Ethernet_Address">Interface by Ethernet Address</A></STRONG><BR>
+<DD>
+When the SNMP interface index changes, you can key that interface by its
+'Physical Address', sometimes called a 'hard address', which is the SNMP
+variable 'ifPhysAddress'.  Internally, MRTG matches the Physical Address from
+the *.cfg file to its current index, and then uses that index for the rest of
+the session.
+<P>You can use the Physical Address in every type of target definition, by adding
+the Physical Address after the OID and separation char '!' (analogous to the IP
+address option).  The Physical address is specified as '-' delimited
+octets, such as ``0a-0-f1-5-23-18'' (omit the double quotes). Note that some
+routers use the same Hardware Ethernet Address for all their Interface which
+prevents unique interface identification. Mrtg will notice such problems and alert you.</P>
+<P>You can tell cfgmaker to generate configuration files with hardware ethernet address references
+by using the option <STRONG>--ifref=eth</STRONG>.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: !0a-0b-0c-0d:public@wellfleet-fddi.ethz.ch
+ Target[ezci]: -!0-f-bb-05-71-22:public@ezci-ether.ethz.ch
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14!0a-00-10-23-44-51&amp;!0a-00-10-23-44-51:public@myrouter
+ Target[ezwf]: ifInErrors!0a-00-10-23-44-51&amp;ifOutErrors!0a-00-10-23-44-51:public@myrouter</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Interface_by_Type">Interface by Type</A></STRONG><BR>
+<DD>
+It seems that there are devices that try to defy all monitoring efforts, the interesting interfaces have
+neither ifName nor a constant ifDescr not to think of a persistant ifIndex. The only way to get a constant
+mapping is by looking at the interface type, because the interface you are interested in is unique in the
+device you are looking at ...
+<P>You can tell cfgmaker to generate such references with the option
+<STRONG>--ifref=type</STRONG>.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: %13:public@wellfleet-fddi.ethz.ch
+ Target[ezci]: -%13:public@ezci-ether.ethz.ch
+ Target[ezwf]: 1.3.6.1.2.1.2.2.1.14%13&amp;1.3.6.1.2.1.2.2.1.14%14:public@myrouter
+ Target[ezwf]: ifInErrors%13&amp;ifOutErrors%14:public@myrouter</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Extended_Host_Name_Syntax">Extended Host Name Syntax</A></STRONG><BR>
+<DD>
+In all places where ``community@router'' is accepted, you can add
+additional parameters for the SNMP communication using
+colon-separated suffixes. The full syntax is as follows:
+<PRE>
+ community@router[:[port][:[timeout][:[retries][:[backoff][:version]]]]]</PRE>
+<P>where the meaning of each parameter is as follows:</P>
+<DL>
+<DT><STRONG><A NAME="item_port">port</A></STRONG><BR>
+<DD>
+the UDP port under which to contact the SNMP agent (default: 161)
+<P></P>
+<DT><STRONG><A NAME="item_timeout">timeout</A></STRONG><BR>
+<DD>
+initial timeout for SNMP queries, in seconds (default: 2.0)
+<P></P>
+<DT><STRONG><A NAME="item_retries">retries</A></STRONG><BR>
+<DD>
+number of times a timed-out request will be retried (default: 5)
+<P></P>
+<DT><STRONG><A NAME="item_backoff">backoff</A></STRONG><BR>
+<DD>
+factor by which the timeout is multiplied on every retry (default: 1.0).
+<P></P>
+<DT><STRONG><A NAME="item_version">version</A></STRONG><BR>
+<DD>
+for SNMP version if you have a fast router you might want to put
+a '2' here. This will make mrtg try to poll the 64 bit counters. And thus
+prevent excessive counter wrapping. Not all routers support this though.
+<P>Example:</P>
+<PRE>
+ 3:public@router1:::::2</PRE>
+<P></P></DL>
+<P>A value that equals the default value can be omitted.  Trailing colons
+can be omitted, too.</P>
+<P>Example:</P>
+<PRE>
+  Target[ezci]: 1:public@ezci-ether.ethz.ch:9161::4</PRE>
+<P>This would refer to the input/output octet counters for the interface
+with <EM>ifIndex 1</EM> on <EM>ezci-ether.ethz.ch</EM>, as known
+by the SNMP agent listening on UDP port 9161.  The standard initial
+timeout (2.0 seconds) is used, but the number of retries is set to
+four.  The backoff value is the default.</P>
+<DT><STRONG><A NAME="item_External_Monitoring_Scripts">External Monitoring Scripts</A></STRONG><BR>
+<DD>
+if you want to monitor something which does not provide
+data via snmp you can use some external program to do
+the data gathering.
+<P>The external command must return 4 lines of output:</P>
+<DL>
+<DT><STRONG><A NAME="item_Line_1">Line 1</A></STRONG><BR>
+<DD>
+current state of the first variable, normally 'incoming bytes count'
+<P></P>
+<DT><STRONG><A NAME="item_Line_2">Line 2</A></STRONG><BR>
+<DD>
+current state of the second variable, normally 'outgoing bytes count'
+<P></P>
+<DT><STRONG><A NAME="item_Line_3">Line 3</A></STRONG><BR>
+<DD>
+string (in any human readable format), telling the uptime of the target.
+<P></P>
+<DT><STRONG><A NAME="item_Line_4">Line 4</A></STRONG><BR>
+<DD>
+string, telling the name of the target.
+<P></P></DL>
+<P>Depending on the type of data your script returns you
+might want to use the 'gauge' or 'absolute' arguments
+for the <EM>Options</EM> keyword.</P>
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: `/usr/local/bin/df2mrtg /dev/dsk/c0t2d0s0`</PRE>
+<P>Note the use of the backticks (`), not apostrophes (')
+around the command.</P>
+<P>If you want to use a backtick in the command  name this can be done
+but you must escape it with a backslash ...</P>
+<DT><STRONG><A NAME="item_Multi_Target_Syntax">Multi Target Syntax</A></STRONG><BR>
+<DD>
+You can also use several statements in a mathematical
+expression.  This could be used to aggregate both B channels
+in an ISDN connection or multiple T1s that are aggregated
+into a single channel for greater bandwidth.
+Note the whitespace arround the target definitions.
+<P>Example:</P>
+<PRE>
+ Target[ezwf]: 2:public@wellfleetA + 1:public@wellfleetA
+              * 4:public@ciscoF</PRE>
+<P></P></DL>
+<P>
+<H2><A NAME="routeruptime">RouterUptime</A></H2>
+<P>In cases where you calculate the used bandwidth from
+several interfaces you normaly don't get the router uptime
+and router name displayed on the web page.</P>
+<P>If these interfaces are on the same router and the uptime and
+name should be displayed nevertheless you have to specify
+its community and address again with the <EM>RouterUptime</EM> keyword.</P>
+<P>Example:</P>
+<PRE>
+ Target[kacisco.comp.edu]: 1:public@194.64.66.250 + 2:public@194.64.66.250
+ RouterUptime[kacisco.comp.edu]: public@194.64.66.250</PRE>
+<P>
+<H2><A NAME="maxbytes">MaxBytes</A></H2>
+<P>The maximum value either of the two variables monitored
+are allowed to reach. For monitoring router traffic
+this is normally specified in bytes per second this
+interface port can carry.</P>
+<P>If a number higher than <EM>MaxBytes</EM> is returned, it is ignored.
+Also read the section on <EM>AbsMax</EM> for further info.
+The <EM>MaxBytes</EM> value is also used in calculating the Y range
+for unscaled graphs (see the section on <EM>Unscaled</EM>).</P>
+<P>Since most links are rated in bits per second, you need to divide
+their maximum bandwidth (in bits) by eight (8) in order to get
+bytes per second.  This is very important to make your
+unscaled graphs display realistic information.
+T1 = 193000, 56K = 7000, Ethernet = 1250000. The <EM>MaxBytes</EM>
+value will be used by mrtg to decide whether it got a
+valid response from the router.</P>
+<P>If you need two different MaxBytes values for the two monitored
+variables, you can use MaxBytes1 and MaxBytes2 instead of MaxBytes.</P>
+<P>Example:</P>
+<PRE>
+ MaxBytes[ezwf]: 1250000</PRE>
+<P>
+<H2><A NAME="maxbytes1">MaxBytes1</A></H2>
+<P>Same as MaxBytes, for variable 1.</P>
+<P>
+<H2><A NAME="maxbytes2">MaxBytes2</A></H2>
+<P>Same as MaxBytes, for variable 2.</P>
+<P>
+<H2><A NAME="title">Title</A></H2>
+<P>Title for the HTML page which gets generated for the graph.</P>
+<P>Example:</P>
+<PRE>
+ Title[ezwf]: Traffic Analysis for Our Nice Company</PRE>
+<P>
+<H2><A NAME="pagetop">PageTop</A></H2>
+<P>Things to add to the top of the generated HTML page.  Note
+that you can have several lines of text as long as the
+first column is empty.</P>
+<P>Note that the continuation lines will all end up on the same
+line in the html page. If you want linebreaks in the generated
+html use the '\n' sequence.</P>
+<P>Example:</P>
+<PRE>
+ PageTop[ezwf]: &lt;H1&gt;Traffic Analysis for ETZ C95.1&lt;/H1&gt;
+   Our Campus Backbone runs over an FDDI line\n
+   with a maximum transfer rate of 12.5 megabytes per
+   Second.</PRE>
+<P>
+<HR>
+<H1><A NAME="optional per target parameters">OPTIONAL PER TARGET PARAMETERS</A></H1>
+<P>
+<H2><A NAME="pagefoot">PageFoot</A></H2>
+<P>Things to add to the bottom of the generated HTML page.  Note
+that you can have several lines of text as long as the
+first column is empty.</P>
+<P>Note that the continuation lines will all end up on the same
+line in the html page. If you want linebreaks in the generated
+html use the '\n' sequence.</P>
+<P>The material will be added just before the &lt;/BODY&gt; tag:</P>
+<P>Example:</P>
+<PRE>
+ PageFoot[ezwf]: Contact &lt;A HREF=&quot;<A HREF="mailto:peter@x.yz&quot">mailto:peter@x.yz&quot</A>;&gt;Peter&lt;/A&gt;
+  if you have questions regarding this page</PRE>
+<P>
+<H2><A NAME="addhead">AddHead</A></H2>
+<P>Use this tag like the <EM>PageTop</EM> header, but its contents
+will be added between &lt;/TITLE&gt; and &lt;/HEAD&gt;.</P>
+<P>Example:</P>
+<PRE>
+ AddHead[ezwf]: &lt;link rev=&quot;made&quot; href=&quot;<A HREF="mailto:mrtg@blabla.edu&quot">mailto:mrtg@blabla.edu&quot</A>;&gt;</PRE>
+<P>
+<H2><A NAME="bodytag">BodyTag</A></H2>
+<P>BodyTag lets you supply your very own &lt;body ...&gt; tag for the
+generated webpages.</P>
+<P>Example:</P>
+<PRE>
+ BodyTag[ezwf]: &lt;BODY LEFTMARGIN=&quot;1&quot; TOPMARGIN=&quot;1&quot; 
+                      BACKGROUND=&quot;/stats/images/bg.neo2.gif&quot;&gt;</PRE>
+<P>
+<H2><A NAME="absmax">AbsMax</A></H2>
+<P>If you are monitoring a link which can handle more traffic
+than the <EM>MaxBytes</EM> value. Eg, a line which uses compression
+or some frame relay link, you can use the <EM>AbsMax</EM> keyword
+to give the absolute maximum value ever to be reached.
+We need to know this in order to sort out unrealistic values
+returned by the routers. If you do not set <EM>AbsMax</EM>, rateup
+will ignore values higher than <EM>MaxBytes</EM>.</P>
+<P>Example:</P>
+<PRE>
+ AbsMax[ezwf]: 2500000</PRE>
+<P>
+<H2><A NAME="unscaled">Unscaled</A></H2>
+<P>By default each graph is scaled vertically to make the
+actual data visible even when it is much lower than
+<EM>MaxBytes</EM>.  With the <EM>Unscaled</EM> variable you can suppress
+this.  It's argument is a string, containing one letter
+for each graph you don't want to be scaled: d=day w=week
+m=month y=year.  In the example scaling for the
+yearly and the monthly graph are suppressed.</P>
+<P>Example:</P>
+<PRE>
+ Unscaled[ezwf]: ym</PRE>
+<P>
+<H2><A NAME="withpeak">WithPeak</A></H2>
+<P>By default the graphs only contain the average
+values of the monitored variables - normally the
+transfer rates for incoming and outgoing traffic.
+The following option instructs mrtg to display the peak
+5 minute values in the [w]eekly, [m]onthly and
+[y]early graph. In the example we define the monthly
+and the yearly graph to contain peak as well as average
+values.</P>
+<P>Examples:</P>
+<PRE>
+ WithPeak[ezwf]: ym</PRE>
+<P>
+<H2><A NAME="suppress">Suppress</A></H2>
+<P>By default mrtg produces 4 graphs. With this option
+you can suppress the generation of selected graphs.
+The option value syntax is analogous to the above two options.
+In this example we suppress the yearly graph
+as it is quite empty in the beginning.</P>
+<P>Example:</P>
+<PRE>
+ Suppress[ezwf]: y</PRE>
+<P>
+<H2><A NAME="extension">Extension</A></H2>
+<P>By default, mrtg creates .html files. Use this option to tell mrtg to
+use a different extension. For example you could set the extension to
+php3, then you will be able to enclose PHP tags into the output (usefull
+for getting a router name out of a database).</P>
+<P>Example:</P>
+<PRE>
+ Extension[ezwf]: phtml</PRE>
+<P>
+<H2><A NAME="directory">Directory</A></H2>
+<P>By default, mrtg puts all the files that it generates for each
+target (the GIFs, the HTML page, the log file, etc.) in <EM>WorkDir</EM>.</P>
+<P>If the <EM>Directory</EM> option is specified, the files are instead put
+into a directory under <EM>WorkDir</EM> or Log-, Image- and HtmlDir).
+(For example the <EM>Directory</EM>
+option below would cause all the files for a target ezwf
+to be put into directory /usr/tardis/pub/www/stats/mrtg/ezwf/ .)</P>
+<P>The directory must already exist; mrtg will not create it.</P>
+<P>Example:</P>
+<PRE>
+ WorkDir: /usr/tardis/pub/www/stats/mrtg
+ Directory[ezwf]: ezwf</PRE>
+<P>NOTE: the Directory option must always be 'relative' or bad things will happen.</P>
+<P>
+<H2><A NAME="xsize and ysize">XSize and YSize</A></H2>
+<P>By default mrtgs graphs are 100 by 400 pixels wide (plus
+some more for the labels. In the example we get almost
+square graphs ...</P>
+<P>Note: XSize must be between 20 and 600; YSize must be larger than 20</P>
+<P>Example:</P>
+<PRE>
+ XSize[ezwf]: 300
+ YSize[ezwf]: 300</PRE>
+<P>
+<H2><A NAME="xzoom and yzoom">XZoom and YZoom</A></H2>
+<P>If you want your graphs to have larger pixels, you can
+``Zoom'' them.</P>
+<P>Example:</P>
+<PRE>
+ XZoom[ezwf]: 2.0
+ YZoom[ezwf]: 2.0</PRE>
+<P>
+<H2><A NAME="xscale and yscale">XScale and YScale</A></H2>
+<P>If you want your graphs to be actually scaled use <EM>XScale</EM>
+and <EM>YScale</EM>. (Beware while this works, the results look ugly
+(to be frank) so if someone wants to fix this: patches are welcome.</P>
+<P>Example:</P>
+<PRE>
+ XScale[ezwf]: 1.5
+ YScale[ezwf]: 1.5</PRE>
+<P>
+<H2><A NAME="ytics and yticsfactor">YTics and YTicsFactor</A></H2>
+<P>If you want to show more than 4 lines per graph, use YTics.
+If you want to scale the value used for the YLegend of these
+tics, use YTicsFactor.
+The default value for YTics is 4 and the default value for
+YTicsFactor is 1.0 .</P>
+<P>Example:</P>
+<PRE>
+  Suppose you get values ranging from 0 to 700.
+  You want to plot 7 lines and want to show
+  0, 1, 2, 3, 4, 5, 6, 7 instead of 0, 100, 200,
+  300, 400, 500, 600, 700.  You should write then:</PRE>
+<PRE>
+  YTics[ezwf]: 7
+  YTicsFactor[ezwf]: 0.01</PRE>
+<P>
+<H2><A NAME="factor">Factor</A></H2>
+<P>If you want to multiply all numbers shown below the graph with a constant factor, use
+this directive to define it ..</P>
+<P>Example:</P>
+<PRE>
+  Factor[as400]: 4096</PRE>
+<P>
+<H2><A NAME="step">Step</A></H2>
+<P>Change the default step from 5 * 60 seconds to
+something else (I have not tested this well ...)</P>
+<P>Example:</P>
+<PRE>
+ Step[ezwf]: 60</PRE>
+<P>
+<H2><A NAME="options">Options</A></H2>
+<P>The <EM>Options</EM> Keyword allows you to set some boolean
+switches:</P>
+<DL>
+<DT><STRONG><A NAME="item_growright">growright</A></STRONG><BR>
+<DD>
+The graph grows to the left by default.
+This option flips the direction of growth
+causing the current time to be at the right edge
+of the graph and the history values to the left of it.
+<P></P>
+<DT><STRONG><A NAME="item_bits">bits</A></STRONG><BR>
+<DD>
+All the monitored variable values are multiplied by 8
+(i.e. shown in bits instead of bytes) ... looks much more impressive :-)
+It also affects the 'factory default' labeling and units
+for the given target.
+<P></P>
+<DT><STRONG><A NAME="item_perminute">perminute</A></STRONG><BR>
+<DD>
+All the monitored variable values are multiplied by 60
+(i.e. shown in units per minute instead of units per second) in case
+of small values more accurate graphs are displayed.
+It also affects the 'factory default' labeling and units
+for the given target.
+<P></P>
+<DT><STRONG><A NAME="item_perhour">perhour</A></STRONG><BR>
+<DD>
+All the monitored variable values are multiplied by 3600
+(i.e. shown in units per hour instead of units per second) in case
+of small values more accurate graphs are displayed.
+It also affects the 'factory default' labeling and units
+for the given target.
+<P></P>
+<DT><STRONG><A NAME="item_noinfo">noinfo</A></STRONG><BR>
+<DD>
+Suppress the information about uptime and
+device name in the generated webpage.
+<P></P>
+<DT><STRONG><A NAME="item_nopercent">nopercent</A></STRONG><BR>
+<DD>
+Don't print usage percentages
+<P></P>
+<DT><STRONG><A NAME="item_transparent">transparent</A></STRONG><BR>
+<DD>
+make the background of the generated gifs transparent ...
+<P></P>
+<DT><STRONG><A NAME="item_integer">integer</A></STRONG><BR>
+<DD>
+Print summary lines below graph as integers without comma
+<P></P>
+<DT><STRONG><A NAME="item_dorelpercent">dorelpercent</A></STRONG><BR>
+<DD>
+The relative percentage of IN-traffic to OUT-traffic is calculated
+and displayed in the graph as an additional line.
+Note: Only a fixed scale is available (from 0 to 100%). Therefore
+for IN-traffic greater than OUT-traffic also 100% is displayed.
+If you suspect that your IN-traffic is not always less than or equal
+to your OUT-traffic you are urged to not use this options.
+Note: If you use this option in combination with the <EM>Colours</EM>
+options, a fifth colour-name colour-value pair is required there.
+<P></P>
+<DT><STRONG><A NAME="item_gauge">gauge</A></STRONG><BR>
+<DD>
+Treat the values gathered from target as 'current status' measurements
+and not as ever incrementing counters.
+This would be useful to monitor things like disk space,
+processor load, temperature, and the like ...
+<P>In the absence of 'gauge' or 'absolute' options,
+MRTG treats variable as a counter and calculates
+the difference between the current and the previous value
+and divides that by the elapsed time between
+the last two readings to get the value to be plotted.</P>
+<P></P>
+<DT><STRONG><A NAME="item_absolute">absolute</A></STRONG><BR>
+<DD>
+This is for counter type data sources which reset their value when they are
+read. This means that rateup does not have to build the difference between
+the current and the last value read from the data source. The value obtained is
+still divided by the elapsed time between the current and the last reading, which makes
+it different from the 'gauge' option. Useful for external data gatherers.
+<P></P>
+<DT><STRONG><A NAME="item_unknaszero">unknaszero</A></STRONG><BR>
+<DD>
+Log unknown data as zero instead of the default behaviour of repeating the
+last value seen. Be careful with this, often a flat line in the graph is
+much more obvious than a line at 0.
+<P></P>
+<DT><STRONG><A NAME="item_withzeroes">withzeroes</A></STRONG><BR>
+<DD>
+Normally we ignore all values which are zero when calculating the average
+transfer rate on a line. If this is not desirable use this option.
+<P></P>
+<DT><STRONG><A NAME="item_noborder">noborder</A></STRONG><BR>
+<DD>
+If you are using rateup to log data, MRTG will create the graph images.
+Normally these images have a shaded border around them. If you do not want the
+border to be drawn, enable this option. This option has no effect if you are
+not using rateup.
+<P></P>
+<DT><STRONG><A NAME="item_noarrow">noarrow</A></STRONG><BR>
+<DD>
+As with the option above, this effects rateup graph generation only. Normally
+rateup will generate graphs with a small arrow showing the direction of the
+data. If you do not want this arrow to be drawn, enable this option. This
+option has no effect if you are not using rateup.
+<P></P>
+<DT><STRONG><A NAME="item_noi">noi</A></STRONG><BR>
+<DD>
+When using rateup for graph generation, you can use this option to stop rateup
+drawing a graph for the 'I' or first variable. This also removes entries for
+this variable in the HTML page MRTG generates, and will remove the peaks for
+this variable if they are enabled. This allows you to hide this data, or can
+be very useful if you are only graphing one line of data rather than two.
+This option is not destructive - any data received for the the variable
+continued to be logged, it just isn't shown.
+<P></P>
+<DT><STRONG><A NAME="item_noo">noo</A></STRONG><BR>
+<DD>
+Same as above, except relating to the 'O' or second variable.
+<P></P>
+<DT><STRONG><A NAME="item_nobanner">nobanner</A></STRONG><BR>
+<DD>
+When using rateup for graph generation, this option disables MRTG adding the
+MRTG banner to the HTML pages it generates.
+<P></P>
+<DT><STRONG><A NAME="item_nolegend">nolegend</A></STRONG><BR>
+<DD>
+When using rateup for graph generation, this option will stop MRTG creating
+a legend at the bottom of the HTML pages it generates.
+<P></P></DL>
+<P>Example:</P>
+<PRE>
+ Options[ezwf]: growright, bits</PRE>
+<P>
+<H2><A NAME="kilo">kilo</A></H2>
+<P>Use this option to change the multiplier value for building
+prefixes. Defaultvalue is 1000. This tag is for the special
+case that 1kB = 1024B, 1MB = 1024kB and so far.</P>
+<P>Example:</P>
+<PRE>
+ kilo[ezwf]: 1024</PRE>
+<P>
+<H2><A NAME="kmg">kMG</A></H2>
+<P>Change the default multiplier prefixes (,k,M,G,T,P). In the tag
+<EM>ShortLegend</EM> define only the basic units.
+Format: Comma seperated list of prefixed. Two consecutive commas
+or a comma at start or end of the line gives no prefix on this item.
+Note: If you do not want prefixes, then leave this line blank.</P>
+<P>Example: velocity in nm/s (nanometers per second) displayed in nm/h.</P>
+<PRE>
+ ShortLegend[ezwf]: m/min
+ kMG[ezwf]: n,u,m,,k,M,G,T,P
+ options[ezwf]: perhour</PRE>
+<P>
+<H2><A NAME="colours">Colours</A></H2>
+<P>The <EM>Colours</EM> tag allows you to override the default colour
+scheme.  Note: All 4 of the required colours must be
+specified here. The colour name ('Colourx' below) is the
+legend name displayed, while the RGB value is the real
+colour used for the display, both on the graph and in the
+html doc.</P>
+<P>Format is: Col1#RRGGBB,Col2#RRGGBB,Col3#RRGGBB,Col4#RRGGBB</P>
+<P>Important:
+If you use the <EM>dorelpercent</EM> options tag a fifth colour name
+colour value pair is required:
+Col1#RRGGBB,Col2#RRGGBB,Col3#RRGGBB,Col4#RRGGBB,Col5#RRGGBB</P>
+<DL>
+<DT><STRONG><A NAME="item_Colour1">Colour1</A></STRONG><BR>
+<DD>
+First variable (normally Input) on default graph
+<P></P>
+<DT><STRONG><A NAME="item_Colour2">Colour2</A></STRONG><BR>
+<DD>
+Second variable (normally Output) on default graph
+<P></P>
+<DT><STRONG><A NAME="item_Colour3">Colour3</A></STRONG><BR>
+<DD>
+Max first variable (input)
+<P></P>
+<DT><STRONG><A NAME="item_Colour4">Colour4</A></STRONG><BR>
+<DD>
+Max second variable (output)
+<P></P>
+<DT><STRONG><A NAME="item_RRGGBB">RRGGBB</A></STRONG><BR>
+<DD>
+2 digit hex values for Red, Green and Blue
+<P></P></DL>
+<P>Example:</P>
+<PRE>
+ Colours[ezwf]: GREEN#00eb0c,BLUE#1000ff,DARK GREEN#006600,VIOLET#ff00ff</PRE>
+<P>
+<H2><A NAME="background">Background</A></H2>
+<P>With the <EM>Background</EM> tag you can configure the background
+colour of the generated HTML page</P>
+<P>Example:</P>
+<PRE>
+ Background[ezwf]: #a0a0a0a</PRE>
+<P>
+<H2><A NAME="ylegend, shortlegend, legend[1234]">YLegend, ShortLegend, Legend[1234]</A></H2>
+<P>The following keywords allow you to override the text
+displayed for the various legends of the graph and in the
+HTML document</P>
+<DL>
+<DT><STRONG><A NAME="item_YLegend">YLegend</A></STRONG><BR>
+<DD>
+The Y-axis label of the graph. Note that a text which is too long
+to fit in the graph will be silently ignored.
+<P></P>
+<DT><STRONG><A NAME="item_ShortLegend">ShortLegend</A></STRONG><BR>
+<DD>
+The units string (default 'b/s') used for Max, Average and Current
+<P></P>
+<DT><STRONG><A NAME="item_Legend%5B1234IO%5D">Legend[1234IO]</A></STRONG><BR>
+<DD>
+The strings for the colour legend
+<P></P></DL>
+<P>Example:</P>
+<PRE>
+  YLegend[ezwf]: Bits per Second
+  ShortLegend[ezwf]: b/s
+  Legend1[ezwf]: Incoming Traffic in Bits per Second
+  Legend2[ezwf]: Outgoing Traffic in Bits per Second
+  Legend3[ezwf]: Maximal 5 Minute Incoming Traffic
+  Legend4[ezwf]: Maximal 5 Minute Outgoing Traffic
+  LegendI[ezwf]: &amp;nbsp;In:
+  LegendO[ezwf]: &amp;nbsp;Out:</PRE>
+<P>Note, if <EM>LegendI</EM> or <EM>LegendO</EM> are set to an empty string with</P>
+<PRE>
+ LegendO[ezwf]:</PRE>
+<P>The corresponding line below the graph will not be printed at all.</P>
+<P>
+<H2><A NAME="timezone">Timezone</A></H2>
+<P>If you live in an international world, you might want to
+generate the graphs in different timezones. This is set in the
+TZ variable. Under certain operating systems like Solaris,
+this will provoke the localtime call to give the time in
+the selected timezone ...</P>
+<P>Example:</P>
+<PRE>
+ Timezone[ezwf]: Japan</PRE>
+<P>The Timezone is the standard Solaris timezone, ie Japan, Hongkong,
+GMT, GMT+1 etc etc.</P>
+<P>
+<H2><A NAME="weekformat">Weekformat</A></H2>
+<P>By default, mrtg (actually rateup) uses the <CODE>strftime(3)</CODE> '%W' option
+to format week numbers in the monthly graphs.  The exact semantics
+of this format option vary between systems.  If you find that the
+week numbers are wrong, and your system's <CODE>strftime(3)</CODE> routine
+supports it, you can try another format option.  The POSIX '%V'
+option seems to correspond to a widely used week numbering
+convention.  The week format character should be specified as a
+single letter; either W, V, or U.</P>
+<P>Example:</P>
+<PRE>
+ Weekformat[ezwf]: V</PRE>
+<P>
+<H2><A NAME="setenv">SetEnv</A></H2>
+<P>When calling external scrits from withing your cfg file (Threshold or script
+targets) you might want to pass some data on to the script. This can be done
+with the SetEnv configuration option ... it takes a series of environment
+variable assignments. Note that the quotes are mandatory.</P>
+<P>Example:</P>
+<PRE>
+ SetEnv[myrouter]:  EMAIL=&quot;contact_email@someplace.net&quot;
+                    HOST=&quot;www.some_server.net&quot;
+                    URL=&quot;<A HREF="http://www.some_server.net/path/mrtg.html&quot">http://www.some_server.net/path/mrtg.html&quot</A>;</PRE>
+<P>
+<HR>
+<H1><A NAME="threshold checking">THRESHOLD CHECKING</A></H1>
+<P>Through its threshold checking functionality mrtg is able to detect
+threshold problems for the various targets and can call external
+scripts to handle those problems (send email or a page to an administrator).</P>
+<P>Threshold checking is configured through the following parameters:</P>
+<P>
+<H2><A NAME="threshdir (global)">ThreshDir (GLOBAL)</A></H2>
+<P>By defining ThreshDir to point to a writable directory, MRTG will only alert
+you when a threshold boundery has been crossed.</P>
+<P>Example:</P>
+<PRE>
+ ThershDir: /var/mrtg/thresh</PRE>
+<P>
+<H2><A NAME="threshmini (per target)">ThreshMinI  (PER TARGET)</A></H2>
+<P>This is the minimum acceptable value for the Input (first) parameter.  If
+the parameter falls below this value, the program specified in ThreshProgI
+will be run. If the value ends in '%' then the threshold is defined relative to MaxBytes.</P>
+<P>
+<H2><A NAME="threshmaxi (per target)">ThreshMaxI (PER TARGET)</A></H2>
+<P>This is the maximum acceptable value for the Input (first) parameter.  If
+the parameter falls above this value, the program specified in ThreshProgI
+will be run. If the value ends in '%' then the threshold is defined relative to MaxBytes.</P>
+<P>
+<H2><A NAME="threshdesc (per target)">ThreshDesc (PER TARGET)</A></H2>
+<P>Its value will be assigned to the environment variable THRESH_DESC before
+any of the programs mentioned below are called. The programms can use the value
+of this variable to produce more userfriendly output.</P>
+<P>
+<H2><A NAME="threshprogi (per target)">ThreshProgI  (PER TARGET)</A></H2>
+<P>This defines a program to be run if ThreshMinI or ThreshMaxI is broken. 
+MRTG passes 3 arguments: the $router variable, the threshold value
+broken, and the current parameter value.</P>
+<P>
+<H2><A NAME="threshprogoki (per target)">ThreshProgOKI  (PER TARGET)</A></H2>
+<P>This defines a program to be run if the parameter is currently OK (based on
+ThreshMinI and ThreshMaxI), but wasn't OK on the previous running -- based
+on the files found in ThreshDir. MRTG passes 3 arguments: the $router
+variable the un-broken threshold value, and the current parameter value.</P>
+<P>
+<H2><A NAME="threshmino, threshmaxo, threshprogo, and threshprogoko">ThreshMinO, ThreshMaxO, ThreshProgO, and ThreshProgOKO</A></H2>
+<P>They work the same as their *I counterparts, except on the Output (second)
+parameter.</P>
+<P><EM>Note, that you can use the SetEnv parameter explained above to pass
+additional information to the threshold programs.</EM></P>
+<P>
+<HR>
+<H1><A NAME="per target default values">PER TARGET DEFAULT VALUES</A></H1>
+<P>
+<H2><A NAME="pre and postfix">Pre- and Postfix</A></H2>
+<P>To save yourself some typing you can define a target
+called '^'. The text of every Keyword you define for this
+target will be PREPENDED to the corresponding Keyword of
+all the targets defined below this line. The same goes for
+a Target called '$' but its text will be APPENDED.</P>
+<P>Note that a space is inserted between the prepended text
+and the Keyword value, as well as between the Keyword value
+and the appended text. This works well for text-valued Keywords,
+but is not very useful for other Keywords. See the ``default''
+target description below.</P>
+<P>The example will make mrtg use a common header and a
+common contact person in all the pages generated from
+targets defined later in this file.</P>
+<P>Example:</P>
+<PRE>
+ PageTop[^]: &lt;H1&gt;NoWhere Unis Traffic Stats&lt;/H1&gt;&lt;HR&gt;
+ PageTop[$]: Contact Peter Norton if you have any questions&lt;HR&gt;</PRE>
+<P>To remove the prepend/append value, specify an empty value, e.g.:</P>
+<PRE>
+ PageTop[^]:
+ PageTop[$]:</PRE>
+<P>NOTE: With PREPEND and APPEND there is normally a space inserted between the local
+value and the PRE- or APPEND value. Sometimes this is not desirable. You can
+use the <EM>NoSpaceChar</EM> config option to define a character which can be
+mentioned at the end of a $ or ^ definition in order to supress the space.</P>
+<P>Example:</P>
+<PRE>
+  NoSpaceChar: ~
+  Target[^]: 1.3.6.1.4.1.482.50.2.4.20.0&amp;1.3.6.1.4.1.482.50.2.4.21.0:get@~
+  Target[a]: a.tolna.net
+  Target[b]: b.tolna.net
+  Target[c]: c.tolna.net
+  Target[d]: d.tolna.net</PRE>
+<P>
+<H2><A NAME="default values">Default Values</A></H2>
+<P>The target name '_' specifies a default value for that
+Keyword. In the absence of explicit Keyword value, the prepended
+and the appended keyword value, the default value will be used.</P>
+<P>Example:</P>
+<PRE>
+ YSize[_]: 150
+ Options[_]: growright,bits,nopercent
+ WithPeak[_]: ymw
+ Suppress[_]: y
+ MaxBytes[_]: 1250000</PRE>
+<P>To remove the default value and return to the 'factory default',
+specify an empty value, e.g.:</P>
+<PRE>
+ YLegend[_]:</PRE>
+<P>There can be several instances of setting the default/prepend/append
+values in the configuration file. The later setting replaces the
+previous one for the rest of the configuration file.
+The default/prepend/append values used for a given
+keyword/target pair are the ones that were in effect
+at the point in the configuration file where the target
+was mentioned for the first time.</P>
+<P>Example:</P>
+<PRE>
+ MaxBytes[_]: 1250000
+ Target[myrouter.somplace.edu.2]: 2:public@myrouter.somplace.edu
+ MaxBytes[_]: 8000
+ Title[myrouter.somplace.edu.2]: Traffic Analysis for myrouter.somplace.edu IF 2</PRE>
+<P>The default <EM>MaxBytes</EM> for the target myrouter.somplace.edu.2
+in the above example will be 1250000, which was in effect
+where the target name myrouter.somplace.edu.2 first appeared
+in the config file.</P>
+<P>
+<HR>
+<H1><A NAME="command line options">COMMAND LINE OPTIONS</A></H1>
+<DL>
+<DT><STRONG><A NAME="item_%2D%2Duser_username_and_%2D%2Dgroup_groupname"><STRONG>--user</STRONG> <EM>username</EM>  and <STRONG>--group</STRONG> <EM>groupname</EM></A></STRONG><BR>
+<DD>
+Run as the given user and/or group. (Unix Only)
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dlock%2Dfile_filename"><STRONG>--lock-file</STRONG> <EM>filename</EM></A></STRONG><BR>
+<DD>
+Use an alternate lock-file (the default is to use the configuration-file
+appended with <CODE>_l</CODE>).
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dconfcache%2Dfile_filename"><STRONG>--confcache-file</STRONG> <EM>filename</EM></A></STRONG><BR>
+<DD>
+Use an alternate confcache-file (the default is to use the configuration-file appended with <CODE>.ok</CODE>)
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dlogging_filename%7Ceventlog"><STRONG>--logging</STRONG> <EM>filename</EM>|<STRONG>eventlog</STRONG></A></STRONG><BR>
+<DD>
+If this is set to writable filename, all output from mrtg (warnings, debug messages, errors)
+will go to <EM>filename</EM>. If you are running on Win32 you can specify <STRONG>eventlog</STRONG> instead of a filename
+which will send all error to the windows event log.
+<P><STRONG>NOTE:</STRONG>Note, there is no Message DLL for mrtg which has the side effect
+that the windows event logger will display a nice message with every entry
+in the event log, complaing about the fact that mrtg has no message dll. If
+any of the Windows folks want to contribute one, they are welcome.</P>
+<P></P></DL>
+<P>
+<HR>
+<H1><A NAME="examples">EXAMPLES</A></H1>
+<P>
+<H2><A NAME="minimal mrtg.cfg">Minimal mrtg.cfg</A></H2>
+<PRE>
+ WorkDir: /usr/tardis/pub/www/stats/mrtg
+ Target[r1]: 2:public@myrouter.somplace.edu
+ MaxBytes[r1]: 8000
+ Title[r1]: Traffic Analysis ISDN
+ PageTop[r1]: &lt;H1&gt;Stats for our ISDN Line&lt;/H1&gt;</PRE>
+<P>
+<H2><A NAME="cfg for several routers.">Cfg for several Routers.</A></H2>
+<PRE>
+ WorkDir: /usr/tardis/pub/www/stats/mrtg
+ Title[^]: Traffic Analysis for
+ PageTop[^]: &lt;H1&gt;Stats for
+ PageTop[$]: Contact The Chief if you notice anybody&lt;HR&gt;
+ MaxBytes[_]: 8000
+ Options[_]: growright</PRE>
+<PRE>
+ Title[isdn]: our ISDN Line
+ PageTop[isdn]: our ISDN Line&lt;/H1&gt;
+ Target[isdn]: 2:public@router.somplace.edu</PRE>
+<PRE>
+ Title[backb]: our Campus Backbone
+ PageTop[backb]: our Campus Backbone&lt;/H1&gt;
+ Target[backb]: 1:public@router.somplace.edu
+ MaxBytes[backb]: 1250000</PRE>
+<PRE>
+ # the following line removes the default prepend value
+ # defined above</PRE>
+<PRE>
+ Title[^]:</PRE>
+<PRE>
+ Title[isdn2]: Traffic for the Backup ISDN Line
+ PageTop[isdn2]: our ISDN Line&lt;/H1&gt;
+ Target[isdn2]: 3:public@router.somplace.edu</PRE>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:oetiker@ee.ethz.ch">oetiker@ee.ethz.ch</A>&gt; and many contributors</P>
+
+</BODY>
+
+</HTML>

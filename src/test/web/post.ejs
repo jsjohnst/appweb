@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>Test ESP Program</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Embedded Server Pages - Post Test Page</H1>
+<H2>Variable Status</H2>
+
+<p>Do <b>NOT</b> include this document in any of your production code. It is a
+   debug script only to show how to display ESP variables. Echoing
+   raw input back to the browers is insecure and subject to CSS 
+   exploits .<p>
+
+<form method="POST" action="<% = SCRIPT_NAME %>">
+<input type="text" name="name" size=20 maxlength=255 value=""> &nbsp;
+<input type="text" name="address" size=20 maxlength=255 value=""> &nbsp;
+<input type="hidden" name="domain" value="mbedthis.com">
+<input type="submit" name="submit" value="OK">
+<input type="submit" name="submit" value="CANCEL">
+</form>
+
+<%
+	if (REQUEST_METHOD == "POST") {
+		write("<P>Name: " + name + "</P>");
+		write("<P>Address: " + address + "</P>");
+		write("<P>Domain: " + domain + "</P>");
+	} else {
+		write("NAME UNSET <br />");
+	}
+%>
+
+<%
+print("CCC " + request)
+	for (v in request) {
+		write('<P>' + v + "=" + request[v] + '</P>');
+	}
+	for (v in form) {
+		write('<P>' + v + "=" + form[v] + '</P>');
+	}
+print("DDD")
+	for (v in headers) {
+		write('<P>HTTP_' + v + "=" + headers[v] + '</P>');
+	}
+print("EEE")
+%>
+
+<% testOutputQueryVars(); %>
+<% testOutputPostData(); %>
+
+</BODY>
+</HTML>

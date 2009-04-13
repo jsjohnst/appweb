@@ -1,0 +1,210 @@
+<HTML>
+<HEAD>
+<TITLE>doc/mibhelp</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#overview">OVERVIEW</A></LI>
+	<LI><A HREF="#mib list">MIB LIST</A></LI>
+	<UL>
+
+		<LI><A HREF="#ifoperstatus">ifOperStatus</A></LI>
+		<LI><A HREF="#ifadminstatus">ifAdminStatus</A></LI>
+		<LI><A HREF="#ifinoctets">ifInOctets</A></LI>
+		<LI><A HREF="#ifinucastpkts">ifInUcastPkts</A></LI>
+		<LI><A HREF="#ifinnucastpkts">ifInNUcastPkts</A></LI>
+		<LI><A HREF="#ifindiscards">ifInDiscards</A></LI>
+		<LI><A HREF="#ifinerrors">ifInErrors</A></LI>
+		<LI><A HREF="#ifinunknownprotos">ifInUnknownProtos</A></LI>
+		<LI><A HREF="#ifoutoctets">ifOutOctets</A></LI>
+		<LI><A HREF="#ifoutucastpkts">ifOutUcastPkts</A></LI>
+		<LI><A HREF="#ifoutnucastpkts">ifOutNUcastPkts</A></LI>
+		<LI><A HREF="#ifoutdiscards">ifOutDiscards</A></LI>
+		<LI><A HREF="#ifouterrors">ifOutErrors</A></LI>
+		<LI><A HREF="#ifoutqlen">ifOutQLen</A></LI>
+		<LI><A HREF="#frinoctets">frInOctets</A></LI>
+		<LI><A HREF="#ifadminhack and ifoperhack">ifAdminHack and ifOperHack</A></LI>
+	</UL>
+
+	<LI><A HREF="#author">AUTHOR</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>mibhelp - A Table of some interesting OIDs</P>
+<P>
+<HR>
+<H1><A NAME="overview">OVERVIEW</A></H1>
+<P>This File Contains a collection of interesting MIB Entries ...
+mrtg knows about their names ... depending on the ASN.1 Syntax
+you may have to put <STRONG>gauge</STRONG> into the <STRONG>Options[]:</STRONG> parameter.</P>
+<P>For information about how to create a <STRONG>Target[]:</STRONG> parameter which
+references these MIB entries, please consult <A HREF="reference.html">the reference manpage</A>.</P>
+<P>
+<HR>
+<H1><A NAME="mib list">MIB LIST</A></H1>
+<P>
+<H2><A NAME="ifoperstatus">ifOperStatus</A></H2>
+<PRE>
+ Descriptor:            ifOperStatus
+ Identifier:            1.3.6.1.2.1.2.2.1.8
+ ASN.1 Syntax:          INTEGER
+ Enumeration:           up 1, down 2, testing 3</PRE>
+<P>The current operational state of the interface.
+The <CODE>testing(3)</CODE> state indicates that no operational
+packets can be passed.</P>
+<P>
+<H2><A NAME="ifadminstatus">ifAdminStatus</A></H2>
+<PRE>
+ Descriptor:            ifAdminStatus
+ Identifier:            1.3.6.1.2.1.2.2.1.7
+ ASN.1 Syntax:          INTEGER
+ Enumeration:           up 1, down 2, testing 3</PRE>
+<P>The current administrative state of the interface.
+The <CODE>testing(3)</CODE> state indicates that no operational
+packets can be passed.</P>
+<P>
+<H2><A NAME="ifinoctets">ifInOctets</A></H2>
+<PRE>
+ Descriptor:            ifInOctets
+ Identifier:            1.3.6.1.2.1.2.2.1.10
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The total number of octets received on the
+interface, including framing characters.</P>
+<P>
+<H2><A NAME="ifinucastpkts">ifInUcastPkts</A></H2>
+<PRE>
+ Descriptor:            ifInUcastPkts
+ Identifier:            1.3.6.1.2.1.2.2.1.11
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The number of subnetwork-unicast packets
+delivered to a higher-layer protocol.</P>
+<P>
+<H2><A NAME="ifinnucastpkts">ifInNUcastPkts</A></H2>
+<PRE>
+ Descriptor:            ifInNUcastPkts
+ Identifier:            1.3.6.1.2.1.2.2.1.12
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The number of non-unicast (i.e., subnetwork-
+broadcast or subnetwork-multicast) packets
+delivered to a higher-layer protocol.</P>
+<P>
+<H2><A NAME="ifindiscards">ifInDiscards</A></H2>
+<PRE>
+ Descriptor:            ifInDiscards
+ Identifier:            1.3.6.1.2.1.2.2.1.13
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The number of inbound packets which were chosen
+to be discarded even though no errors had been
+detected to prevent their being deliverable to a
+higher-layer protocol.  One possible reason for
+discarding such a packet could be to free up
+buffer space.</P>
+<P>
+<H2><A NAME="ifinerrors">ifInErrors</A></H2>
+<P><TABLE CELLSPACING=0 CELLPADDING=0><TR><TD>Descriptor:             ifInErrors
+<TR><TD>Identifier:<TD>1.3.6.1.2.1.2.2.1.14
+<TR><TD>ASN.1 Syntax:<TD>Counter32</TABLE></P>
+<P>The number of inbound packets that contained
+errors preventing them from being deliverable to a
+higher-layer protocol.</P>
+<P>
+<H2><A NAME="ifinunknownprotos">ifInUnknownProtos</A></H2>
+<P><TABLE CELLSPACING=0 CELLPADDING=0><TR><TD>Descriptor:             ifInUnknownProtos
+<TR><TD>Identifier:<TD>1.3.6.1.2.1.2.2.1.15
+<TR><TD>ASN.1 Syntax:<TD>Counter32</TABLE></P>
+<P>The number of packets received via the interface
+which were discarded because of an unknown or
+unsupported protocol.</P>
+<P>
+<H2><A NAME="ifoutoctets">ifOutOctets</A></H2>
+<P><TABLE CELLSPACING=0 CELLPADDING=0><TR><TD>Descriptor:             ifOutOctets
+<TR><TD>Identifier:<TD>1.3.6.1.2.1.2.2.1.16
+<TR><TD>ASN.1 Syntax:<TD>Counter32</TABLE></P>
+<P>The total number of octets transmitted out of the
+interface, including framing characters.</P>
+<P>
+<H2><A NAME="ifoutucastpkts">ifOutUcastPkts</A></H2>
+<PRE>
+ Descriptor:             ifOutUcastPkts
+ Identifier:            1.3.6.1.2.1.2.2.1.17
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The total number of packets that higher-level
+protocols requested be transmitted to a
+subnetwork-unicast address, including those that
+were discarded or not sent.</P>
+<P>
+<H2><A NAME="ifoutnucastpkts">ifOutNUcastPkts</A></H2>
+<PRE>
+ Descriptor:             ifOutNUcastPkts
+ Identifier:            1.3.6.1.2.1.2.2.1.18
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The total number of packets that higher-level
+protocols requested be transmitted to a non-
+unicast (i.e., a subnetwork-broadcast or
+subnetwork-multicast) address, including those
+that were discarded or not sent.</P>
+<P>
+<H2><A NAME="ifoutdiscards">ifOutDiscards</A></H2>
+<PRE>
+ Descriptor:             ifOutDiscards
+ Identifier:            1.3.6.1.2.1.2.2.1.19
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The number of outbound packets which were chosen
+to be discarded even though no errors had been
+detected to prevent their being transmitted.  One
+possible reason for discarding such a packet could
+be to free up buffer space.</P>
+<P>
+<H2><A NAME="ifouterrors">ifOutErrors</A></H2>
+<PRE>
+ Descriptor:             ifOutErrors
+ Identifier:            1.3.6.1.2.1.2.2.1.20
+ ASN.1 Syntax:          Counter32</PRE>
+<P>The number of outbound packets that could not be
+transmitted because of errors.</P>
+<P>
+<H2><A NAME="ifoutqlen">ifOutQLen</A></H2>
+<PRE>
+ Descriptor:             ifOutQLen
+ Identifier:            1.3.6.1.2.1.2.2.1.21
+ ASN.1 Syntax:          Unsigned32</PRE>
+<P>The length of the output packet queue (in
+packets).</P>
+<P>
+<H2><A NAME="frinoctets">frInOctets</A></H2>
+<P>From: Simon Ferrett &lt;<A HREF="mailto:simonf@world.net">simonf@world.net</A>&gt;</P>
+<PRE>
+ 'frInOctets' =&gt; '1.3.6.1.2.1.10.32.2.1.9'
+ 'frOutOctets' =&gt; '1.3.6.1.2.1.10.32.2.1.7'</PRE>
+<P>which when used in the form:</P>
+<PRE>
+ frInOctets.pp.dd&amp;frOutOctets.pp.dd:community@cisco.router</PRE>
+<P>where pp is the physical port that the frame relay pvc is
+defined on and dd is the DLCI of the pvc gets you the in
+and out octets for just that pvc.</P>
+<P>
+<H2><A NAME="ifadminhack and ifoperhack">ifAdminHack and ifOperHack</A></H2>
+<P>The return values of ifAdminStatus and ifOperStatus are not very usefull
+for graphing. Use ifOperHack and ifAdminHack instead. They return 1 for
+UP and 0 otherwise.</P>
+<P>Note these are not real MIB entities but mrtg hacks</P>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:oetiker@ee.ethz.ch">oetiker@ee.ethz.ch</A>&gt;</P>
+
+</BODY>
+
+</HTML>

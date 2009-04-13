@@ -1,0 +1,26 @@
+#
+#	Makefile to build the all-in-one Appweb distribution
+#
+#	Copyright (c) Embedthis Software LLC, 2003-2009. All Rights Reserved.
+#
+
+include 		.makedep
+
+TARGETS			+= appweb.h appwebLib.c appweb.c
+
+all-in-one:		$(TARGETS) dummy
+
+APPWEB_HEADERS	+= $(patsubst %,../include/%.h, appweb appwebMonitor httpTune http)
+LIB_SOURCES		+= $(shell find ../http -name '*.c') 
+
+appweb.h: Makefile $(APPWEB_HEADERS)
+	echo '#include "appwebConfig.h"' >appweb.h
+	cat $(APPWEB_HEADERS) | egrep -v '#include.*appweb|#include.*http' >>appweb.h
+
+appwebLib.c: Makefile appweb.h $(LIB_SOURCES)
+	echo '#include "appweb.h"' >appwebLib.c
+	all-in-one $(LIB_SOURCES) | egrep -v '#include.*appweb|#include.*http' >>appwebLib.c
+
+appweb.c: Makefile appweb.h ../server/appweb.c
+	echo '#include "appweb.h"' >appweb.c
+	all-in-one ../server/appweb.c | egrep -v '#include.*appweb|#include.*http' >>appweb.c

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+
+<body>
+    <pre>
+MAKEROM(1)                       User Commands                      MAKEROM(1)
+
+<b>NAME</b>
+       makerom - Compile files into C source code
+
+<b>SYNOPSIS</b>
+       <b>makerom [options] files ... &amp;gtoutput.c</b>
+
+       [<i>--files fileList</i>] [<i>--prefix prefix</i>] [<i>--name structName</i>]
+
+<b>DESCRIPTION</b>
+       To  enable files to be accessed on embedded systems without a file sys-
+       tem, the <b>makerom </b>command converts arbitrary files into C code that  can
+       be  compiled and linked into a program. This is useful for applications
+       that must execute completely from ROM and not  access  a  file  system.
+       This  facility can also enhance security by preventing the modification
+       of files.
+
+       The MPR portable runtime provides routines which can  then  read  these
+       files much as you would read any file on disk.
+
+<b>OPTIONS</b>
+       <b>--files fileList</b>
+              Option to provide a list of files that should be converted.  <b>--p</b>
+              <b>prefix </b>Specifies a prefix to remove from each  of  the  compiled
+              file names.
+
+       <b>--name structName</b>
+              Specifies  the name of top level C structure that holds the con-
+              verted files.
+
+<b>EXAMPLE</b>
+       This example will create a list of web files  and  then  convert  these
+       files into C structures in the file romFiles.c.
+
+           find web -type f -print &amp;gtfileList
+
+           makerom --files filelist &amp;gtromFiles.c
+
+           cc -o romFiles.o romFiles.c
+
+<b>REPORTING BUGS</b>
+       Report bugs to &amp;ltdev@embedthis.com&amp;gt.
+
+<b>COPYRIGHT</b>
+       Copyright (C) 2003-2009 Embedthis Software.
+
+<b>SEE ALSO</b>
+makerom                           March 2009                        MAKEROM(1)
+</pre>
+</body>
+</html>

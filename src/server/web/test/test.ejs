@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Copyright Embedthis Software, LLC, 2003-2009. All Rights Reserved. -->
+
+<!-- Simple Ejscript page. This is a simple stand-alone web page that demonstrates 
+     some of the features of the Ejscript web framework. It does not use or demonstrate 
+     the MVC or templating capabilities of Ejscript.
+-->
+
+<html>
+<head>
+	<title>Embedded Server Pages Feature Page</title>
+</head>
+
+<body>
+<% 	
+	// dump("CONTROLLER", controller);
+
+	if (request.method == "POST") {
+		var ok = params["ok"];
+		if (ok == "Cancel") {
+			redirect(request.referrer);
+
+		} else if (ok == "New Session") {
+			destroySession();
+			createSession(120);
+
+		} else if (ok == "Ok") {
+			session["name"] = params.name
+			session["address"] = params.address
+		}
+	}
+	write("<p>Using session: " + request.sessionID + "</p>\n");
+%>
+
+<H4>Forms using sessions and post back to the original script</H4>
+<form method="POST" action="@@request.url">
+    <table class="inputForm" border=0>
+        <tr>
+            <td><b>Name</b></td>
+            <td><input name="name" type="text" value="@@session['name']"></td>
+        </tr>
+        <tr>
+            <td><b>Address</b></td>
+            <td><input name="address" type="text" value="@@session['address']"></td>
+        </tr>
+    </table>
+    <input type="submit" name="ok" value="Ok">
+    <input type="submit" name="ok" value="Cancel">
+    <input type="submit" name="ok" value="New Session">
+</form>
+
+<H4>Variable Substitution</H4>
+<% i=2; %>
+Test Value using equals: <% = i %>
+Test Value using atat: @@i
+
+<H4>Scripted Iteration of HTML</H4>
+<% for (i = 0; i < 3; i++) { %>
+Line: @@i<br/>
+<% } %>
+
+<% write("<H4>Quote Test's</H4>"); %>
+<P>Some text with various kind's of "quotes"</P>
+<% write("<P>A \"tough\" quote test</P>"); %>
+
+
+<%
+/*  Other commands to test
+
+    setCookie("biscuit", "choc-chip", 24, "some-data");
+    setCookie("biscuit", "oatmeal-rasin", 24, "some-data2");
+
+    setHttpCode(201)
+    setMimeType("text/mob")
+
+    d(params)
+    d(session)
+
+    session["name"] = "Ron Miller"
+
+    d(session)
+*/
+%>
+
+</body>
+</html>
+

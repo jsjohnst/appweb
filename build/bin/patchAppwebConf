@@ -1,0 +1,145 @@
+#!/bin/sh
+#
+#	patchAppwebConf -- Patch the appweb.conf file
+#	Copyright (c) Embedthis Software LLC, 2003-2009. All Rights Reserved.
+#
+#	usage: $BLD_TOOLS_DIR/patchAppwebConf file 
+#
+#	Must set the env vars:
+#
+#		BLD_PREFIX, BLD_WEB_PREFIX, BLD_MOD_PREFIX BLD_HTTP_PORT, BLD_SSL_PORT
+
+###############################################################################
+
+setup() {
+
+	local g u
+
+	#
+	#	Select default username
+	#
+	for u in nobody www-data Administrator
+	do
+		grep "$u" /etc/passwd >/dev/null
+		if [ $? = 0 ]
+		then
+			username=$u
+			break
+		fi
+	done
+
+	if [ "$username" = "" ]
+	then
+		echo "Can't find a suitable username in /etc/passwd for $PRODUCT" 1>&2
+		exit 255
+	fi
+	
+	#
+	#	Select default group name
+	#
+	for g in nogroup nobody www-data Administrators
+	do
+		grep "$g" /etc/group >/dev/null
+		if [ $? = 0 ]
+		then
+			groupname=$g
+			break
+		fi
+	done
+	
+	if [ "$groupname" = "" ]
+	then
+		echo "Can't find a suitable group in /etc/group for $PRODUCT" 1>&2
+		exit 255
+	fi
+}
+
+###############################################################################
+
+editAppwebConf()
+{
+    conf="$1"
+    ssl="$2"
+    log="$3"
+    misc="$4"
+    doc="$5"
+	docPrefix="${BLD_DOC_PREFIX}"
+	
+    ed -s "$conf" <<!PATCH_EOF
+	H
+	,g!^ServerRoot!s!\".*\"!\"${BLD_PREFIX}\"!
+	,g!DocumentRoot!s!\".*\"!\"${BLD_WEB_PREFIX}\"!
+	,g!LoadModulePath .*!s!!LoadModulePath \"${BLD_MOD_PREFIX}\"!
+	1;/Listen/;s!^Listen .*!Listen ${BLD_HTTP_PORT}!
+	w
+	q
+!PATCH_EOF
+
+    ed -s "$ssl" <<!PATCH_EOF2
+	H
+	1;/Listen/;s!^.*Listen .*!    Listen ${BLD_SSL_PORT}!
+	,g!DocumentRoot!s!\".*\"!\"${BLD_WEB_PREFIX}\"!
+	1;/SSLEngine on/;?<VirtualHost?;s!<VirtualHost .*!<VirtualHost *:${BLD_SSL_PORT}>!
+	w
+	q
+!PATCH_EOF2
+    
+    ed -s "$log" <<!PATCH_EOF3
+	H
+	,g!ErrorLog .*!s!!ErrorLog \"${BLD_LOG_PREFIX}/error.log\"!
+	,g!CustomLog .*access.log\"!s!!CustomLog \"${BLD_LOG_PREFIX}/access.log\"!
+	w
+	q
+!PATCH_EOF3
+
+    ed -s "$misc" <<!PATCH_EOF4
+	H
+	,g!User .*!s!!User ${username}!
+	,g!Group .*!s!!Group ${groupname}!
+	w
+	q
+!PATCH_EOF4
+
+    ed -s "$doc" <<!PATCH_EOF5
+	H
+	,g!Alias \/doc\/!s!\".*\"!\"${docPrefix}\/\"!
+	w
+	q
+!PATCH_EOF5
+
+	if [ `uname | sed 's/CYGWIN.*/CYGWIN/'` = CYGWIN ] ; then
+		if which unix2dos >/dev/null 2>&1 ; then
+			unix2dos "$conf" >/dev/null 2>&1
+			unix2dos "$ssl" >/dev/null 2>&1
+			unix2dos "$log" >/dev/null 2>&1
+			unix2dos "$misc" >/dev/null 2>&1
+            unix2dos "$doc" >/dev/null 2>&1
+		fi
+    else
+        for f in "$conf" "$ssl" "$log" "$misc" "$doc" ; do
+            ed -s "$f" <<!CLEAN_EOF
+            H
+            g/$/s/$//
+            w
+            q
+!CLEAN_EOF
+        done
+	fi
+}
+
+
+###############################################################################
+#
+#	Main
+#
+
+setup
+
+if [ "$1" = "" -o "$2" = "" -o "$3" = "" -o "$4" = "" -o "$5" = "" ] ; then
+    echo "usage: patchAppwebConf appweb.conf conf/hosts/ssl-default.conf conf/log.conf conf/misc.conf conf/extras/doc.conf" >&2
+    echo "Must set env vars: BLD_PREFIX BLD_WEB_PREFIX BLD_MOD_PREFIX BLD_DOC_PREFIX BLD_LOG_PREFIX BLD_HTTP_PORT" >&2
+    echo "and BLD_SSL_PORT" >&2
+    exit 255
+fi
+editAppwebConf "$1" "$2" "$3" "$4" "$5"
+

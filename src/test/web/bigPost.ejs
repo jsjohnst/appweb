@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>Large Post Test</title>
+
+<script language="Javascript" type="text/javascript">
+
+function click(thisForm) {
+
+   var str = "";
+
+   for (i = 0; i < 6000; i++) {
+      str += "appAction_" + i + "," + i;
+   }
+   thisForm.input1.value = str;
+
+   return true;
+}
+
+</script>
+</head>
+
+<body> 
+
+<%
+	if (request['REQUEST_METHOD'] == "POST") {
+		if (form['ok'] == "OK") {
+			write("Content length was: " + request['CONTENT_LENGTH']);
+		}
+	}
+%>
+
+<form name="bigPost" method="post" action="@@request['SCRIPT_NAME']">
+	<input type="hidden" name="input1" value="">
+	<p>Generating big post data field.</p>
+	<input type="submit" name="ok" value="OK" onclick="return click(this.form);">
+</form> 
+</body>
+</html>
+

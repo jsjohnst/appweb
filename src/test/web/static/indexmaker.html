@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<TITLE>doc/indexmaker</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#options">OPTIONS</A></LI>
+	<LI><A HREF="#description">DESCRIPTION</A></LI>
+	<LI><A HREF="#author">AUTHOR</A></LI>
+	<LI><A HREF="#license">LICENSE</A></LI>
+	<LI><A HREF="#copyright">COPYRIGHT</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<HR>
+<H1><A NAME="name">NAME</A></H1>
+<P>indexmaker - Creates index files for mrtg web sites (mrtg-2.9.17)</P>
+<P>
+<HR>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<P>indexmaker [options] regexp mrtg.cfg [other.cfg ...]</P>
+<P>
+<HR>
+<H1><A NAME="options">OPTIONS</A></H1>
+<PRE>
+ --output=filename   set output filename (default: stdout)</PRE>
+<PRE>
+ --filter title=~regexp  select targets by matching regexp against titles
+ --filter pagetop=~regexp  select targets by matching regexp against pagetop
+ --filter name=~regexp  select targets by matchin regexp against name</PRE>
+<PRE>
+ --title=text        set title of generated index file
+ --bodyopt=text      set body tag options
+ --pagetop=text      insert this text between &lt;BODY&gt; and &lt;H1&gt;...&lt;/H1&gt;</PRE>
+<PRE>
+ --columns=number    show graphs in a table with x columns (default: 2)</PRE>
+<PRE>
+ --sort=title        sort graphs by title
+ --sort=name         sort graphs by their name
+ --sort=descr        sort graphs by their description
+ --sort=original     leave as is (default)</PRE>
+<PRE>
+ --enumerate         add a sequence number to the title of each graph</PRE>
+<PRE>
+ --width=number      set width of graphs (default: not set)
+ --height=number</PRE>
+<PRE>
+ --show=day          pick which graph to show in the index (default)
+ --show=week
+ --show=month
+ --show=year
+ --show=none</PRE>
+<PRE>
+ --section=h1        h1 tag from pagetop as section heading (default)
+ --section=title     title as section headings for graphs
+ --section=name      graph name as section heading
+ --section=descr     graph description as section heading
+ --section=portname  port name entry in pagetop as section heading</PRE>
+<PRE>
+ --rrdviewer=path    path to rrdviewer (default: /cgi-bin/14all.cgi)
+ --prefix=path       path from the location of the index.html to the graphs</PRE>
+<P>
+<HR>
+<H1><A NAME="description">DESCRIPTION</A></H1>
+<P><STRONG>Indexmaker</STRONG> can create web pages which display the status of an
+array of mrtg interface status pages.</P>
+<DL>
+<DT><STRONG><A NAME="item_%2D%2Doutput_filename"><STRONG>--output</STRONG> <EM>filename</EM></A></STRONG><BR>
+<DD>
+set output filename (default: stdout)
+<P></P>
+<DT><STRONG><A NAME="item_filter"><STRONG>--filter</STRONG> (<STRONG>title</STRONG>|<STRONG>pagetop</STRONG>|<STRONG>name</STRONG>)(<STRONG>=~</STRONG>|<STRONG>!~</STRONG>)<EM>regexp</EM></A></STRONG><BR>
+<DD>
+Several filters may get set.  Each filter can match agains the contents
+of a specific section of the mrtg config file. <STRONG>Name</STRONG> refers to the
+bit in square brackets (option[name]: bla).
+<P>Depending on the match operator chosen (<STRONG>=~</STRONG> or <STRONG>!~</STRONG>) the match will be
+positive or negative.</P>
+<P>Note that some shells consider <STRONG>!</STRONG> a special character.  It may be
+necessary to type <STRONG>\!~</STRONG> instead.</P>
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dtitle_text"><STRONG>--title</STRONG> <EM>text</EM></A></STRONG><BR>
+<DD>
+Set title of generated index file (default: regexp)
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dbodyopt_text"><STRONG>--bodyopt</STRONG> <EM>text</EM></A></STRONG><BR>
+<DD>
+The value of this argument gets appended to
+the &lt;BODY&gt; tag. This allows to set document colors.
+By default this option is set to
+<PRE>
+ bgcolor=&quot;#ffffff&quot; text=&quot;#000000&quot; link=&quot;#000000&quot; vlink=&quot;#000000&quot; alink=&quot;#000000&quot;</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dcolumns_number"><STRONG>--columns</STRONG> <EM>number</EM></A></STRONG><BR>
+<DD>
+Display graphs in a table with <EM>number</EM> columns (default: 2)
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dsort_title%7Cname%7Cdescr%7Coriginal"><STRONG>--sort</STRONG> <STRONG>title</STRONG>|<STRONG>name</STRONG>|<STRONG>descr</STRONG>|<STRONG>original</STRONG></A></STRONG><BR>
+<DD>
+Sort the graphs in the page either by <STRONG>title</STRONG>, by <STRONG>name</STRONG>, by interface
+<STRONG>descr</STRONG>iption, or leave them as is.
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Denumerate"><STRONG>--enumerate</STRONG></A></STRONG><BR>
+<DD>
+Add a sequence number to the title of each graph
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dwidth_number"><STRONG>--width</STRONG> <EM>number</EM></A></STRONG><BR>
+<DD>
+Set width of graphs
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dheight_number"><STRONG>--height</STRONG> <EM>number</EM></A></STRONG><BR>
+<DD>
+Set the height of the graphs
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dshow_day%7Cweek%7Cmonth%7Cyear%7Cnone"><STRONG>--show</STRONG> <STRONG>day</STRONG>|<STRONG>week</STRONG>|<STRONG>month</STRONG>|<STRONG>year</STRONG>|<STRONG>none</STRONG></A></STRONG><BR>
+<DD>
+Select which graph to show in the index page. You can supress images
+completely with <STRONG>--show=none</STRONG>.
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dsection_h1%7Ctitle%7Cname%7Cdescription%7Cpo"><STRONG>--section</STRONG> <STRONG>h1</STRONG>|<STRONG>title</STRONG>|<STRONG>name</STRONG>|<STRONG>description</STRONG>|<STRONG>portname</STRONG></A></STRONG><BR>
+<DD>
+Select what to use as the title for each graph in the page.  <STRONG>h1</STRONG> is
+the H1 section from pagetop, <STRONG>title</STRONG> is the graph title, <STRONG>name</STRONG> is
+the bit in square brackets (option[name]: bla), and <STRONG>descr</STRONG> or
+<STRONG>description</STRONG> is the text from the Description field of the PageTop
+(the Cisco description text if it's available, otherwise just the
+interface description). <STRONG>portname</STRONG> is the <CODE>Port Name:</CODE> from pagetop.
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Drrdviewer_path"><STRONG>--rrdviewer</STRONG> <EM>path</EM></A></STRONG><BR>
+<DD>
+If you have set the <STRONG>LogFormat: rrdtool</STRONG> property in the mrtg.cfg
+file, the index will take this into account. The only thing you must
+tell it is the path to your grapher cgi. (default: /cgi-bin/14all.cgi)
+<P></P>
+<DT><STRONG><A NAME="item_%2D%2Dprefix_path"><STRONG>--prefix</STRONG> <EM>path</EM></A></STRONG><BR>
+<DD>
+By  default we assume    that  the file generated by indexmaker is stored in
+<EM>WorkDir</EM>.  If you want to  store it somewhere   else, specify how to reach
+<EM>WorkDir</EM>  from  the place where the Index is stored. Note that you have to
+use '/' as path separator as this will be used in urls. Speaking of which,
+you can even enter a whole url.
+<P></P></DL>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:tobi@oetiker.ch">tobi@oetiker.ch</A>&gt;</P>
+<P>
+<HR>
+<H1><A NAME="license">LICENSE</A></H1>
+<P>GNU General Public License</P>
+<P>
+<HR>
+<H1><A NAME="copyright">COPYRIGHT</A></H1>
+<P>2000-2001 Tobias Oetiker &lt;<A HREF="mailto:tobi@oetiker.ch">tobi@oetiker.ch</A>&gt;</P>
+
+</BODY>
+
+</HTML>

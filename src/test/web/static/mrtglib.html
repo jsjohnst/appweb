@@ -1,0 +1,211 @@
+<HTML>
+<HEAD>
+<TITLE>doc/mrtglib</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#description">DESCRIPTION</A></LI>
+	<LI><A HREF="#authors">AUTHORS</A></LI>
+	<LI><A HREF="#license">LICENSE</A></LI>
+	<LI><A HREF="#copyright">COPYRIGHT</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<PRE>
+ use MRTG_lib;
+ my ($configfile, @target_names, %globalcfg, %targetcfg);
+ readcfg($configfile, \@target_names, \%globalcfg, \%targetcfg);
+ my (@parsed_targets);
+ cfgcheck(\@target_names, \%globalcfg, \%targetcfg, \@parsed_targets);</PRE>
+<P>
+<HR>
+<H1><A NAME="description">DESCRIPTION</A></H1>
+<P>MRTG_lib is part of MRTG, the Multi Router Traffic Grapher. It was separated
+from MRTG to allow other programs to easily use the same config files. The
+main part of MRTG_lib is the config file parser but some other funcions are
+there too.</P>
+<DL>
+<DT><STRONG><A NAME="item_%24MRTG_lib%3A%3AOS"><CODE>$MRTG_lib::OS</CODE></A></STRONG><BR>
+<DD>
+Type of OS: WIN, UNIX, VMS
+<P></P>
+<DT><STRONG><A NAME="item_%24MRTG_lib%3A%3ASL"><CODE>$MRTG_lib::SL</CODE></A></STRONG><BR>
+<DD>
+<EM>Slash</EM> in the current OS.
+<P></P>
+<DT><STRONG><A NAME="item_%24MRTG_lib%3A%3APS"><CODE>$MRTG_lib::PS</CODE></A></STRONG><BR>
+<DD>
+Path separator in PATH variable
+<P></P>
+<DT><STRONG><A NAME="item_readcfg"><CODE>readcfg</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_readcfg"><CODE>readcfg($file, \@targets, \%globalcfg, \%targetcfg [, $prefix, \%extrules])</CODE></A>
+<P>Reads a config file, parses it and fills some arrays and hashes. The
+mandatory arguments are: the name of the config file, a ref to an array which
+will be filled with a list of the target names, a hashref for the global
+configuration, a hashref for the target configuration.</P>
+<P>The configuration file syntax is:</P>
+<PRE>
+ globaloption: value
+ targetoption[targetname]: value
+ aprefix*extglobal: value
+ aprefix*exttarget[target2]: value</PRE>
+<P>E.g.</P>
+<PRE>
+ workdir: /var/stat/mrtg
+ target[router1]: 2:public@router1.local.net
+ 14all*columns: 2</PRE>
+<P>The global config hash has the structure</P>
+<PRE>
+ $globalcfg{configoption} = 'value'</PRE>
+<P>The target config hash has the structure</P>
+<PRE>
+ $targetcfg{configoption}{targetname} = 'value'</PRE>
+<P>See <A HREF="reference.html">the reference manpage</A> for more information about the MRTG configuration syntax.</P>
+<P><A HREF="#item_readcfg"><CODE>readcfg</CODE></A> can take two additional arguments to extend the config file
+syntax. This allows programs to put their configuration into the mrtg config
+file. The fifth argument is the prefix of the extension, the sixth argument
+is a hash with the checkrules for these extension settings. E.g. if the
+prefix is ``14all'' <A HREF="#item_readcfg"><CODE>readcfg</CODE></A> will check config lines that begin with
+``14all*'', i.e. all lines like</P>
+<PRE>
+ 14all*columns: 2
+ 14all*graphsize[target3]: 500 200</PRE>
+<P>against the rules in %extrules. The format of this hash is:</P>
+<PRE>
+ $extrules{option} = [sub{$_[0] =~ m/^\d+$/}, sub{&quot;Error message for $_[0]&quot;}]
+     i.e.
+ $extrules{option}[0] -&gt; a test expression
+ $extrules{option}[1] -&gt; error message if test fails</PRE>
+<P>The first part of the array is a perl expression to test the value of the
+option. The test can access this value in the variable ``$arg''. The second
+part of the array is an error message to display when the test fails. The
+failed value can be integrated by using the variable ``$arg''.</P>
+<P>Config settings with an different prefix than the one given in the <A HREF="#item_readcfg"><CODE>readcfg</CODE></A>
+call are not checked but inserted into <EM>%globalcfg</EM> and <EM>%targetcfg</EM>.
+Prefixed settings keep their prefix in the config hashes:</P>
+<PRE>
+ $targetcfg{'14all*graphsize'}{'target3'} = '500 200'</PRE>
+<P></P>
+<DT><STRONG><A NAME="item_cfgcheck"><CODE>cfgcheck</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_cfgcheck"><CODE>cfgcheck(\@target_names, \%globalcfg, \%targetcfg, \@parsed_targets)</CODE></A>
+<P>Checks the configuration read by <A HREF="#item_readcfg"><CODE>readcfg</CODE></A>. Checks the values in the config
+for syntactical and/or semantical errors. Sets defaults for some options.
+Parses the ``target[...]'' options and filles the array @parsed_targets ready
+for mrtg functions.</P>
+<P>The first three arguments are the same as for <A HREF="#item_readcfg"><CODE>readcfg</CODE></A>. The fourth argument
+is an arrayref which will be filled with the parsed target defs.</P>
+<P><A HREF="#item_cfgcheck"><CODE>cfgcheck</CODE></A> converts the values of target settings <EM>options</EM>, e.g.</P>
+<PRE>
+ options[router1]: bits, growright</PRE>
+<P>to a hash:</P>
+<PRE>
+ $targetcfg{'option'}{'bits'}{'router1'} = 1
+ $targetcfg{'option'}{'growright'}{'router1'} = 1</PRE>
+<P>This is not done by <A HREF="#item_readcfg"><CODE>readcfg</CODE></A> so if you don't use <A HREF="#item_cfgcheck"><CODE>cfgcheck</CODE></A> you have to
+check the scalar variable <EM>$targetcfg{'option'}{'router1'}</EM> (MRTG allows
+options to be separated by space or ',').</P>
+<P></P>
+<DT><STRONG><A NAME="item_ensureSL"><CODE>ensureSL</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_ensureSL"><CODE>ensureSL(\$pathname)</CODE></A>
+<P>Checks that the <EM>pathname</EM> does not contain double path separators and ends
+with a path separator. It uses $MRTG_lib::SL as path separator which will be /
+or \ depending on the OS.</P>
+<P></P>
+<DT><STRONG><A NAME="item_log2rrd"><CODE>log2rrd</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_log2rrd"><CODE>log2rrd ($router,\%globalcfg,\%targetcfg)</CODE></A>
+<P>Convert log file to rrd format. Needs rrdtool.</P>
+<P></P>
+<DT><STRONG><A NAME="item_datestr"><CODE>datestr</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_datestr"><CODE>datestr(time)</CODE></A>
+<P>Returns the time given in the argument as a nicely formated date string.
+The argument has to be in UNIX time format (seconds since 1970-1-1).</P>
+<P></P>
+<DT><STRONG><A NAME="item_timestamp"><CODE>timestamp</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_timestamp"><CODE>timestamp()</CODE></A>
+<P>Return a string representing the current time.</P>
+<P></P>
+<DT><STRONG><A NAME="item_setup_loghandlers"><CODE>setup_loghandlers</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_setup_loghandlers"><CODE>setup_loghandlers(filename)</CODE></A>
+<P>Install signalhandlers for __DIE__ and __WARN__ making the errors
+go the the specified destination. If filename is 'eventlog'
+mrtg will log to the windows event logger.</P>
+<P></P>
+<DT><STRONG><A NAME="item_expistr"><CODE>expistr</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_expistr"><CODE>expistr(time)</CODE></A>
+<P>Returns the time given in the argument formatted suitable for HTTP
+Expire-Headers.</P>
+<P></P>
+<DT><STRONG><A NAME="item_demonize_me"><CODE>demonize_me</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_demonize_me"><CODE>demonize_me()</CODE></A>
+<P>Puts the running program into background, detaching it from the terminal.</P>
+<P></P>
+<DT><STRONG><A NAME="item_populatecache"><CODE>populatecache</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_populatecache"><CODE>populatecache(\%confcache, $host, $reread, $snmpoptshash)</CODE></A>
+<P>Reads the SNMP variables <EM>ifDescr</EM>, <EM>ipAdEntIfIndex</EM>, <EM>ifPhysAddress</EM>, <EM>ifName</EM> from
+the <EM>host</EM> and stores the values in <EM>%confcache</EM> as follows:</P>
+<PRE>
+ $confcache{$host}{'Descr'}{ifDescr}{oid} = (ifDescr or 'Dup')
+ $confcache{$host}{'IP'}{ipAdEntIfIndex}{oid} = (ipAdEntIfIndex or 'Dup')
+ $confcache{$host}{'Eth'}{ifPhysAddress}{oid} = (ifPhysAddress or 'Dup')
+ $confcache{$host}{'Name'}{ifName}{oid} = (ifName or 'Dup')
+ $confcache{$host}{'Type'}{ifType}{oid} = (ifType or 'Dup')</PRE>
+<P>The value (at the right side of =) is 'Dup' if a value was retrieved
+muliple times, the retrieved value else.</P>
+<P></P>
+<DT><STRONG><A NAME="item_readconfcache"><CODE>readconfcache</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_readconfcache"><CODE>my $confcache = readconfcache($file)</CODE></A>
+<P>Preload the confcache from a file.</P>
+<P></P>
+<DT><STRONG><A NAME="item_writeconfcache"><CODE>writeconfcache</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_writeconfcache"><CODE>writeconfcache($confcache,$file)</CODE></A>
+<P>Store the current confcache into a file.</P>
+<P></P>
+<DT><STRONG><A NAME="item_debug"><CODE>debug</CODE></A></STRONG><BR>
+<DD>
+<A HREF="#item_debug"><CODE>debug($type, $message)</CODE></A>
+<P>Prints the <EM>message</EM> on STDERR if debugging is enabled for type <EM>type</EM>.
+A debug type is enabled if <EM>type</EM> is in array @main::DEBUG.</P>
+<P></P></DL>
+<P>
+<HR>
+<H1><A NAME="authors">AUTHORS</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:tobi@oetiker.ch">tobi@oetiker.ch</A>&gt;, Dave Rand &lt;<A HREF="mailto:dlr@bungi.com">dlr@bungi.com</A>&gt;
+and other contributors, mentioned in the file <CODE>CHANGES</CODE></P>
+<P>Documentation by Rainer Bawidamann &lt;<A HREF="mailto:Rainer.Bawidamann@rz.uni-ulm.de">Rainer.Bawidamann@rz.uni-ulm.de</A>&gt;</P>
+<P>
+<HR>
+<H1><A NAME="license">LICENSE</A></H1>
+<P>GNU General Public License</P>
+<P>
+<HR>
+<H1><A NAME="copyright">COPYRIGHT</A></H1>
+<P>MRTG_lib is  Copyright 2000 by Tobias Oetiker &lt;<A HREF="mailto:tobi@oetiker.ch">tobi@oetiker.ch</A>&gt;
+and Dave Rand &lt;<A HREF="mailto:dlr@bungi.com">dlr@bungi.com</A>&gt;.</P>
+
+</BODY>
+
+</HTML>

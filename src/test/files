@@ -1,0 +1,13 @@
+${BLD_OBJ_DIR}/testAppweb${BLD_OBJ}
+${BLD_OBJ_DIR}/testAlias${BLD_OBJ}
+${BLD_OBJ_DIR}/testAuth${BLD_OBJ}
+${BLD_OBJ_DIR}/testCgi${BLD_OBJ}
+${BLD_OBJ_DIR}/testEgi${BLD_OBJ}
+${BLD_OBJ_DIR}/testEjs${BLD_OBJ}
+${BLD_OBJ_DIR}/testGet${BLD_OBJ}
+${BLD_OBJ_DIR}/testHttp${BLD_OBJ}
+${BLD_OBJ_DIR}/testPhp${BLD_OBJ}
+${BLD_OBJ_DIR}/testPost${BLD_OBJ}
+${BLD_OBJ_DIR}/testUpload${BLD_OBJ}
+${BLD_OBJ_DIR}/testVhost${BLD_OBJ}
+

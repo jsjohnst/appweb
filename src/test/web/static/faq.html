@@ -1,0 +1,123 @@
+<HTML>
+<HEAD>
+<TITLE>doc/faq</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#faq">FAQ</A></LI>
+	<UL>
+
+		<LI><A HREF="#why is there no @#$% (my native language) version of mrtg">Why is there no ``@#$%'' (my native language) version of MRTG</A></LI>
+		<LI><A HREF="#i need a script to make mrtg work with my xyz device.">I need a script to make mrtg work with my xyz device.</A></LI>
+		<LI><A HREF="#how does this snmp thing work">How does this SNMP thing work</A></LI>
+		<LI><A HREF="#the images created by mrtg look very strange.">The Images created by MRTG look very strange.</A></LI>
+		<LI><A HREF="#what is my community name">What is my Community Name?</A></LI>
+		<LI><A HREF="#my graphs show a flat line during an outage. why ">My graphs show a flat line during an outage. Why ?</A></LI>
+	</UL>
+
+	<LI><A HREF="#author">AUTHOR</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>help - How to get help if you have problems with MRTG</P>
+<P>
+<HR>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<P>MRTG seems to raise a lot of questions. There are a number of resources
+apart from the documentation where you can find help for mrtg.</P>
+<P>
+<HR>
+<H1><A NAME="faq">FAQ</A></H1>
+<P>Alex van den Bogaerdt &lt;<A HREF="mailto:alex@ergens.op.Het.Net">alex@ergens.op.Het.Net</A>&gt; maintains the
+MRTG FAQ website on</P>
+<PRE>
+ <A HREF="http://faq.mrtg.org">http://faq.mrtg.org</A></PRE>
+<P>In the following sections you find some additonal Frequently Asked Questions, with Answers.</P>
+<P>
+<H2><A NAME="why is there no @#$% (my native language) version of mrtg">Why is there no ``@#$%'' (my native language) version of MRTG</A></H2>
+<P>Nobody has contributed a <EM>@#$%.pmd</EM> file yet. Go into the
+<EM>mrtg-2.9.17/translate</EM> directory and create your own translation file.
+When you are happy with it send it to me for inclusion with the next mrtg
+release.</P>
+<P>
+<H2><A NAME="i need a script to make mrtg work with my xyz device.">I need a script to make mrtg work with my xyz device.</A></H2>
+<P>Probably this has already been done. Check the stuff in the
+<EM>mrtg-2.9.17/contrib</EM> directory. There is a file called <EM>00INDEX</EM> in
+that directory which tells what you can find in there.</P>
+<P>
+<H2><A NAME="how does this snmp thing work">How does this SNMP thing work</A></H2>
+<P>There are many resources on the net, explaining about SNMP.
+Take a look at this article from the Linux Journal by David Guerrero:</P>
+<PRE>
+ <A HREF="http://www.develnet.es/~david/papers/snmp/">http://www.develnet.es/~david/papers/snmp/</A></PRE>
+<P>And at this rather long document from CISCO</P>
+<PRE>
+ <A HREF="http://www.cisco.com/univercd/cc/td/doc/cisintwk/ito_doc/snmp.htm">http://www.cisco.com/univercd/cc/td/doc/cisintwk/ito_doc/snmp.htm</A></PRE>
+<P>
+<H2><A NAME="the images created by mrtg look very strange.">The Images created by MRTG look very strange.</A></H2>
+<P>Remove the *-{week,day,month,year}.png files and start MRTG
+again.  Using MRTG for the first time, you might have to do this
+twice. This will also help, when you introduce new routers into the cfg
+file.</P>
+<P>
+<H2><A NAME="what is my community name">What is my Community Name?</A></H2>
+<P>Ask the person in charge of your Router or try 'public', as this is the
+default Community Name.</P>
+<P>
+<H2><A NAME="my graphs show a flat line during an outage. why ">My graphs show a flat line during an outage. Why ?</A></H2>
+<P>Well, the short answer is that when an SNMP query goes out
+and a response doesn't come back, MRTG has to assume something to put
+in the graph, and by default it assumes that the last answer we got
+back is probably closer to the truth than zero.  This assumption is
+not perfect (as you have noticed), it's a trade-off that happens to
+fail during a total outage.</P>
+<P>If this is an unacceptable trade-off,use the <STRONG>unknaszero</STRONG> option.</P>
+<P>You may want to know what you're trading off, so in the spirit of
+trade-offs, here's the long answer:</P>
+<P>The problem is that MRTG doesn't know *why* the data didn't come back, all
+it knows is that it didn't come back.  It has to do something, and it
+assumes it's a stray lost packet rather than an outage.</P>
+<P>Why don't we always assume the circuit is down, and use zero, which will
+(we think) be more nearly right?  Well, it turns out that you may be
+taking advantage of MRTG's ``assume last'' behaviour without being aware of
+it.</P>
+<P>MRTG uses SNMP (Simple Network Management Protocol) to collect data, and
+SNMP uses UDP (User Datagram Protocol) to ship packets around.  UDP is
+connectionless (not guaranteed) - unlike TCP where packets are tracked and
+acknowledged and, if needed, re-transmitted, UDP just throws
+packets at the network and hopes they arrive. Sometimes they don't.</P>
+<P>One likely cause of lost SNMP data is congestion, another is busy routers.
+Other possibilities include transient telecommunications problems, router
+buffer overflows (which may or may not be congestion-related), ``dirty
+lines'' (links with high error rates), and acts of God.  These things
+happen all the time, we just don't notice because many interactive
+services are TCP-based and the lost packets get retransmitted
+automatically.</P>
+<P>In the above cases where some SNMP packets are lost but traffic is
+flowing, assuming zero is the wrong thing to do - you end up with a graph
+that looks like it's missing teeth whenever the link fills up.  MRTG
+interpolates the lost data to produce a smoother graph which is more
+accurate in cases of intermittent packet loss.  But with V2.8.4 and above,
+you can use the ``unknaszero'' option to produce whichever graph is best
+under the conditions typical of your network.</P>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:oetiker@ee.ethz.ch">oetiker@ee.ethz.ch</A>&gt;</P>
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,15 @@
+--get $TEST_HOST/cgi-bin/cgiProgram
+--get $TEST_HOST/egi/egiProgram/extra/path?var1=a&var2=b
+--get $TEST_HOST/static/cfgmaker.html
+--get $TEST_HOST/static/contrib.html
+--get $TEST_HOST/static/faq.html
+--get $TEST_HOST/static/forum.html
+--get $TEST_HOST/static/index.html
+--get $TEST_HOST/tmp/
+--form "name=mob;address=444" $TEST_HOST/test.esp 
+--form "uploadFile=@scripts/data/upload1.dat" $TEST_HOST/upload/upload.esp 
+--form "uploadFile=@scripts/data/upload2.dat" $TEST_HOST/upload/upload.esp 
+--form "uploadFile=@scripts/data/upload3.dat" $TEST_HOST/upload/upload.esp 
+#--upload-file scripts/data/upload1.dat $TEST_HOST/tmp/upload1.dat
+#--upload-file scripts/data/upload2.dat $TEST_HOST/tmp/upload2.dat
+#--upload-file scripts/data/upload3.dat $TEST_HOST/tmp/upload3.dat

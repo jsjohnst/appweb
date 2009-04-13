@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+
+<body>
+    <pre>
+APPWEB(1)                        User Commands                       APPWEB(1)
+
+<b>NAME</b>
+       appweb- Embedded HTTP Web Server
+
+<b>SYNOPSIS</b>
+       <b>appweb [options]</b>
+       <b>appweb [options] [IP][:port] [documentRoot]</b>
+
+       <b>appweb </b>[<i>--config configFile</i>] [<i>--chroot directory</i>] [<i>--debug</i>] [<i>--ejs app-</i>
+       <i>Spec</i>] [<i>--log logSpec</i>] [<i>--home directory</i>]  [<i>--threads  threads</i>]  [<i>--ver-</i>
+       <i>sion</i>] [<i>--verbose</i>]
+
+<b>DESCRIPTION</b>
+       Appweb  is  a  compact  embedded HTTP web server.  It is a fast, small-
+       footprint, multi-threaded, standards-based, portable  server  developed
+       for  use  by embedded devices and applications.  It can run as a stand-
+       alone web server or the Appweb library can be embedded in applications.
+
+       Appweb supports HTTP/1.1, SSL, digest and basic authentication, virtual
+       hosting, ranged requests, chunked transfers, file upload  and  security
+       limits.  Appweb has an Apache style configuration file and supports the
+       PHP and Ejscript web frameworks.
+
+       Appweb normally reads the <b>appweb.conf  </b>file  for  configuration  direc-
+       tives.  However, if appweb is invoked with an IP address or port number
+       on the command line, Appweb  will  not  read  the  configuration  file.
+       Rather it will listen for requests on the specified IP:PORT address. If
+       the PORT component is omitted, Appweb will listen on port 80. If the IP
+       address  is  omitted  and a port is supplied, Appweb will listen on all
+       network interfaces.
+
+<b>OPTIONS</b>
+       <b>--config filename</b>
+              Define the name of the Appweb configuration  file.  This  is  by
+              default <b>appweb</b>.
+
+       <b>--chroot directory</b>
+              Change  the  system  root  directory  for Appweb. This creates a
+              chroot jail so that the Appweb process cannot access  any  files
+              outside the given directory.
+
+       <b>--debug</b>
+              Run Appweb in debug mode and disable all timeouts. This disables
+              request and session timeouts.  The <b>-d </b>option  is  an  alias  for
+              --debug.
+
+       <b>--ejs name:directory</b>
+              Define  an  Ejscript application by name at the specified direc-
+              tory. The <b>name </b>is the application name and is used as a URL pre-
+              fix. When a request arrives which matches this URL prefix, it is
+              routed to the application to service. For example:
+
+              appweb --ejs /carmen/:/var/www/apps/carmen/
+
+       <b>--log logSpec</b>
+              Name the Appweb log file. This will override the ErrorLog direc-
+              tive  in  the  configuration  file.   When  the  maximum size is
+              exceeded, the log file will be rotated to logName.old and a  new
+              log  file  will be started. The <b>-l </b>option is an alias for --log.
+              The syntax is:
+
+              --log logName[:logLevel][.maxSize]
+
+       <b>--home directory</b>
+              Define the server home directory for Appweb.
+
+       <b>--threads numThreads</b>
+              Specify the maximum number of threads  to  use  for  the  appweb
+              thread  pool.  This overrides the ThreadLimit configuration file
+              directive.
+
+       <b>--verbose</b>
+              Shorthand for --log stdout:4. The <b>-v  </b>option  is  an  alias  for
+              --verbose.
+
+       <b>--version</b>
+              Output the product version number.
+
+<b>FILES</b>
+       <b>/etc/appweb/appweb.conf</b>
+       <b>/var/www/appweb-default</b>
+       <b>/usr/lib/appweb</b>
+       <b>/var/log/appweb</b>
+
+<b>REPORTING BUGS</b>
+       Report bugs to &amp;ltdev@embedthis.com&amp;gt.
+
+<b>COPYRIGHT</b>
+       Copyright (C) 2003-2009 Embedthis Software.
+
+<b>SEE ALSO</b>
+       http
+
+appweb                            March 2009                         APPWEB(1)
+</pre>
+</body>
+</html>

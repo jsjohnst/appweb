@@ -1,0 +1,68 @@
+.TH APPWEBANGEL "1" "March 2009" "appwebAngel" "User Commands"
+.SH NAME
+appwebAngel - Embedded HTTP Server
+.SH SYNOPSIS
+.B appwebAngel
+[\fI--args arguments\fR] 
+[\fI--console\fR] 
+[\fI--daemon\fR]
+[\fI--heartBeat interval\fR]
+[\fI--home directory\fR]
+[\fI--install\fR]
+[\fI--log logFile:level\fR]
+[\fI--program path\fR]
+[\fI--start\fR]
+[\fI--stop\fR]
+[\fI--uninstall\fR]
+.SH DESCRIPTION
+The appwebAngel program is a guardian angel process for Appweb. It watches over Appweb to start it
+and restart it should it fail. The angel is a robust, minimal program with one job - to ensure
+Appweb remains available. 
+.SH OPTIONS
+.TP
+\fB\--args arguments\fR
+Arguments to use for the Appweb command line when it starts.
+.TP
+\fB\--console\fR
+Windows specific option to allow the Angel process to interact with the users desktop.
+.TP
+\fB\--daemon\fR
+Run the Angel as a daemon process. This causes the Angel to detach from the current shell and run in the background.
+.TP
+\fB\--heartBeat interval\fR
+Set the frequency in seconds for the Angel to check on Appweb. This period should be short enough that Appweb will
+be quickly restarted should it fail, but not so short that the Angel process consumes significant CPU resources.
+If Appweb dies more than 15 times per hour, the Angel will suspend restarting Appweb.
+.TP
+\fB\--home directory\fR
+Set the home directory in which to start Appweb.
+.TP
+\fB\--install\fR
+Windows specific option to install the Angel as a windows service.
+.TP
+\fB\--l logFile:level\fR
+Specify a file to use for log messages. The level argument defines the message verbosity. Zero is the least and 9 is the 
+most verbose.
+.TP
+\fB\--program path\fR
+Define the Appweb program path to execute.
+.TP
+\fB\--stop\fR
+Windows specific option to stop the Angel service.
+.TP
+\fB\--start\fR
+Windows specific option to start the Angel service.
+.TP
+\fB\--uninstall\fR
+Windows specific option to uninstall the Angel as a windows service.
+.TP
+\fB\-v\fR
+Output the product version number.
+.PP
+.SH "REPORTING BUGS"
+Report bugs to <dev@embedthis.com>.
+.SH COPYRIGHT
+Copyright \(co 2003-2009 Embedthis Software.
+.br
+.SH "SEE ALSO"
+appweb

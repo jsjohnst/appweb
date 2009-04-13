@@ -1,0 +1,46 @@
+#
+#	source.files - Files needed for the source installation
+#
+#	Copyright (c) Embedthis Software LLC, 2003-2009. All Rights Reserved.
+#
+DIR=${BLD_SRC_PREFIX}
+
+#
+#   Standard release files
+#
+makeDir "${DIR}/src" "${DIR}/build/bin" "${DIR}/obj" "${DIR}/bin" "${DIR}/lib" "${DIR}/lib/modules" "${DIR}/src/all"
+
+cpy -e                    Makefile "${DIR}"
+cpy -w -e                 "*.TXT" "${DIR}"
+cpy -m 0755               configure "${DIR}"
+cpy -d .                  obj/Makefile  lib/Makefile bin/Makefile "${DIR}"
+cpy -d build -c "Makefile|Makefile.top|configure.${BLD_PRODUCT}|*.defaults|config.*|*.make" "*"  "${DIR}/build"
+cpy -m 0755 -d build/bin  bld makedep priv fakePriv mkdmg "${DIR}/build/bin"
+cpy -m 0755 -d build/bin  "make*Package*" makeInstall "${DIR}/build/bin"
+cpy -m 0755 -d build/bin  patchAppwebConf all-in-one  "${DIR}/build/bin"
+cpy -d build/src          Makefile "*.c" "*.h" "${DIR}/build/src"
+cpy -d build/components   "*" "${DIR}/build/components"
+cpy -d package            Makefile "*.files" "${DIR}/package"
+cpy -m 0755 -d package    "*.sh" makeInstall.appweb  "${DIR}/package"
+cpy -d package            LINUX MACOSX WIN "${DIR}/package"
+
+#
+#   Source for mpr, ejs, server, http
+#
+srcFilter="/\.log$"
+cpy -f "${srcFilter}" src/Makefile src/mpr src/ejs src/http src/utils src/include  "${DIR}/src"
+cpy -f "${srcFilter}" src/all/Makefile.all src/all/Makefile  "${DIR}/src/all"
+cpy -f "${srcFilter}" src/server src/test  "${DIR}/src"
+
+docFilter="api/ejs/xml/|api/ejs/html/|api/appweb/html|api/appweb/xml"
+cpy -f "${docFilter}" doc "${DIR}"
+
+samplesFilter="\.mod$|\.so$|\.dylib$|\.js$|\.o"
+cpy -f "${samplesFilter}" samples "${DIR}"
+
+projectsFilter="/Debug|/Release|\.user|\.suo|\.ncb|/appweb.build/"
+cpy -f "${projectsFilter}" projects "${DIR}"
+
+if [ "$BLD_WIN_LIKE" = 1 ] ; then
+    ( cd "${BLD_SRC_PREFIX}" ; ./configure --static --quiet)
+fi

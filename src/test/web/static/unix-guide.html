@@ -1,0 +1,264 @@
+<HTML>
+<HEAD>
+<TITLE>doc/unix-guide</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#preparation">PREPARATION</A></LI>
+	<LI><A HREF="#library compilation">LIBRARY COMPILATION</A></LI>
+	<LI><A HREF="#mrtg compilation">MRTG COMPILATION</A></LI>
+	<LI><A HREF="#configuration">CONFIGURATION</A></LI>
+	<LI><A HREF="#running mrtg">RUNNING MRTG</A></LI>
+	<LI><A HREF="#author">AUTHOR</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>unix-guide - Instructions for running MRTG 2.9.17 on a Unix Box</P>
+<P>
+<HR>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<P>MRTG comes to you in Source Code. This means that you have to compile
+parts of it before you can use it on a Unix machine. These instructions
+help you to do so.</P>
+<P>
+<HR>
+<H1><A NAME="preparation">PREPARATION</A></H1>
+<P>In order to compile and use mrtg you need a C compiler and a copy of perl
+installed on your machine. In most cases this will already be available.
+In case it is not, here are some starting points. Below I'll give you
+a detailed run through the whole compilation process.</P>
+<DL>
+<DT><STRONG><A NAME="item_GCC">GCC</A></STRONG><BR>
+<DD>
+The GNU C compiler comes pre installed on most of the free Unicies out
+there.  For commercial Derivats you may have to download and compile
+it first. If you have no compiler at all there is a chicken and egg
+problem, but there are also precompiled versions of gcc available for
+most of the operating systems.
+<PRE>
+ <A HREF="http://gcc.gnu.org/">http://gcc.gnu.org/</A></PRE>
+<P></P>
+<DT><STRONG><A NAME="item_Perl">Perl</A></STRONG><BR>
+<DD>
+Larg parts of the MRTG system are written in the Perl scripting language.
+Make sure there is a recent copy of perl on your machine (try perl -v).
+At least version 5.005 is required for mrtg to work well.
+You can get the latest perl from
+<PRE>
+ <A HREF="http://www.perl.com/">http://www.perl.com/</A></PRE>
+<P></P></DL>
+<P>MRTG generates traffic graphs in the PNG format. To be able todo this it
+needs several 3rd party libraries. When compiling these libraries I urge you
+to make sure you compile them as <STRONG>static</STRONG> libraries. There is just much
+less trouble ahead if you are doing it like this. See the Instructions in
+the next section for inspiration. Note that many free unices have all
+the required libraries already in place. So there is no need to install
+another copy. To check it is best to skip all the library instructions below
+and go straight into the mrtg compile.</P>
+<P>If the first attempt fails, and you do not get a working version of mrtg,
+try compiling new copies of all libraries as explained below ... Do this
+<STRONG>BEFORE</STRONG> you send email to me about problems compiling mrtg.</P>
+<DL>
+<DT><STRONG><A NAME="item_gd">gd</A></STRONG><BR>
+<DD>
+This is a basic graph drawing library created by Thomas Boutell.
+Note that all releases after Version 1.3 only create
+PNG images. This is because a) Thomas got into trouble because the GIF
+format which it used to produce uses a compression technology patented
+by Unisys. b) PNG is more efficient and patent free. MRTG can work
+with old and new version of the GD library. You can get a recent copy
+of GD from:
+<PRE>
+ <A HREF="http://www.boutell.com/gd/">http://www.boutell.com/gd/</A></PRE>
+<P></P>
+<DT><STRONG><A NAME="item_libpng">libpng</A></STRONG><BR>
+<DD>
+Is required by gd in order to produce PNG graphics files. Get it from:
+<PRE>
+ <A HREF="http://www.libpng.org/pub/png/src/">http://www.libpng.org/pub/png/src/</A></PRE>
+<P></P>
+<DT><STRONG><A NAME="item_zlib">zlib</A></STRONG><BR>
+<DD>
+Finally is needed by libpng to compress the graphics files you create.
+Get a copy from
+<PRE>
+ <A HREF="ftp://sunsite.cnlab-switch.ch/mirror/infozip/zlib/">ftp://sunsite.cnlab-switch.ch/mirror/infozip/zlib/</A></PRE>
+<P></P></DL>
+<P>And last but not least you also need mrtg itself. In case you have not
+yet downloaded it, you can find a copy on my website:</P>
+<PRE>
+ <A HREF="http://people.ee.ethz.ch/~oetiker/webtools/mrtg/pub/">http://people.ee.ethz.ch/~oetiker/webtools/mrtg/pub/</A></PRE>
+<P>
+<HR>
+<H1><A NAME="library compilation">LIBRARY COMPILATION</A></H1>
+<P>In this section I will give you step by step instructions on how to compile
+the various libraries required for the compilation of mrtg. Note that these
+libaries may already be installed if you have a <EM>*BSD</EM> or <EM>Linux</EM> system
+so that you can skip recompiling them. The <STRONG>wget</STRONG> programm used below is a
+simple web downloader you can also enter the address into your <STRONG>netscape</STRONG>
+if you don't have <STRONG>wget</STRONG> available.</P>
+<P>First lets create a directory for the compilation. Note that this may
+already exist on your system. No Problem just use it.</P>
+<PRE>
+ mkdir -p /usr/local/src
+ cd /usr/local/src</PRE>
+<P>If you do not have zlib installed:</P>
+<PRE>
+ wget <A HREF="ftp://sunsite.cnlab-switch.ch/mirror/infozip/zlib/zlib.tar.gz">ftp://sunsite.cnlab-switch.ch/mirror/infozip/zlib/zlib.tar.gz</A>
+ gunzip -c zlib.tar.gz | tar xf -
+ mv zlib-?.?.?/ zlib
+ cd zlib
+ ./configure
+ make
+ cd ..</PRE>
+<P>If you don't have libpng installed</P>
+<PRE>
+ wget <A HREF="http://www.libpng.org/pub/png/src/libpng-1.0.11.tar.gz">http://www.libpng.org/pub/png/src/libpng-1.0.11.tar.gz</A>
+ gunzip -c libpng-*.tar.gz |tar xf -
+ rm libpng-*.tar.gz
+ mv libpng-* libpng
+ cd libpng
+ make -f scripts/makefile.std CC=gcc ZLIBLIB=../zlib ZLIBINC=../zlib
+ rm *.so.* *.so
+ cd ..</PRE>
+<P>And now you can compile gd</P>
+<PRE>
+ wget <A HREF="http://www.boutell.com/gd/http/gd-1.8.3.tar.gz">http://www.boutell.com/gd/http/gd-1.8.3.tar.gz</A>
+ gunzip -c gd-1.8.3.tar.gz |tar xf -
+ mv gd-1.8.3 gd
+ cd gd</PRE>
+<P>The \ characters at the end of the following lines mean that all the
+following material should actually be written on a single line.</P>
+<PRE>
+ make INCLUDEDIRS=&quot;-I. -I../zlib -I../libpng&quot; \
+      LIBDIRS=&quot;-L../zlib -L. -L../libpng&quot; \
+      LIBS=&quot;-lgd -lpng -lz -lm&quot;
+ cd ..</PRE>
+<P>
+<HR>
+<H1><A NAME="mrtg compilation">MRTG COMPILATION</A></H1>
+<P>Ok now everything is ready for the mrtg compilation.</P>
+<PRE>
+ cd /usr/local/src
+ gunzip -c mrtg-2.9.17.tar.gz | tar xvf -
+ cd mrtg-2.9.17</PRE>
+<P>If you all the libraries have been preinstalled on your system you can
+configure mrtg by doing a simple:</P>
+<PRE>
+ ./configure --prefix=/usr/local/mrtg-2</PRE>
+<P>Otherwise you may have to give some hints on where to find the
+various libraries required to compile mrtg:</P>
+<PRE>
+ ./configure --prefix=/usr/local/mrtg-2       \
+             --with-gd=/usr/local/src/gd      \
+             --with-z=/usr/local/src/zlib     \
+             --with-png=/usr/local/src/libpng</PRE>
+<P>If you have RRDtool available you might want to tell mrtg about it
+so that you can opt to use rrdtool with mrtg. Check <A HREF="mrtg-rrd.html">the mrtg-rrd manpage</A>.</P>
+<P>Configure will make sure your environment is fit for building mrtg.
+If it finds a problem, it will tell you so and it will also tell
+you what todo about it. If everything is OK, you will end up with
+a custom Makefile for your system. Now type:</P>
+<PRE>
+ make</PRE>
+<P>This builds the rateup binary and edits all the perl pathnames in
+the scripts. You can now install mrtg by typing</P>
+<PRE>
+ make install</PRE>
+<P>All the software required by MRTG is now installed under
+in the <EM>/usr/local/mrtg-2</EM> subdirectory.</P>
+<P>You can now safely delete the libraries we compiled above. But then
+again you might want to keep them around so that you have them
+available when compiling the next version of mrtg.</P>
+<P>
+<HR>
+<H1><A NAME="configuration">CONFIGURATION</A></H1>
+<P>The next step is now to configure mrtg for monitoring an network
+device.  This is done by creating an <EM>mrtg.cfg</EM> file which defines
+what you want to monitor. Luckily you don't have to dive straight in
+and start writing your own configuration file all by
+yourself. Together with mrtg you also got a copy of <STRONG>cfgmaker</STRONG>. This
+is a script you can point at a router of your choice; and it will
+create a mrtg configuration file for you. You can find the script in
+the <EM>bin</EM> subdirectory.</P>
+<PRE>
+ cfgmaker --global 'WorkDir: /home/httpd/mrtg'  \
+          --global 'Options[_]: bits,growright' \
+          --output /home/mrtg/cfg/mrtg.cfg    \
+           community@router.abc.xyz</PRE>
+<P>This example above will create an mrtg config file in
+<EM>/home/mrtg/cfg</EM> assuming this is a directory visible on your
+webserver. You can read all about cfgmaker in <A HREF="cfgmaker.html">the cfgmaker manpage</A>. One area you might
+want to look at is the possibility of using <STRONG>--ifref=ip</STRONG> to prevent
+interface renumbering troubles from catching you.</P>
+<P>If you want to start rolling your own mrtg configuration files, make sure
+you read <A HREF="reference.html">the reference manpage</A> to learn all about the possible configuration options.</P>
+<P>
+<HR>
+<H1><A NAME="running mrtg">RUNNING MRTG</A></H1>
+<P>Once you have created a configuration file, try the following:</P>
+<PRE>
+ /usr/local/mrtg-2/bin/mrtg /home/mrtg/cfg/mrtg.cfg</PRE>
+<P>This will query your router and also create your first mrtg trafic
+graphs and webpages. When you run mrtg for the first time there will
+be a lot of complaints about missing log files. Don't worry, this is
+normal for the first 2 times you start mrtg. If it keeps complaining
+after this time you might want to look into the problem.</P>
+<P>Starting mrtg by hand is not ideal in the long run. So when you are
+sattisfied with the results you must automate the process of running mrtg in
+regular intervals (this means every 5 minutes by default).</P>
+<P>You can either add mrtg to your crontab with a line like this:</P>
+<PRE>
+ 0,5,10,15,20,25,30,35,40,45,50,55 * * * * \
+       &lt;mrtg-bin&gt;/mrtg &lt;path to mrtg-cfg&gt;/mrtg.cfg \
+                --logging /var/log/mrtg.log</PRE>
+<P>or if you live in Linux Land the line may look like this if you are
+using <CODE>crontab -e</CODE></P>
+<PRE>
+ */5 * * * *  &lt;mrtg-bin&gt;/mrtg &lt;path to mrtg-cfg&gt;/mrtg.cfg \
+                       --logging /var/log/mrtg.log</PRE>
+<P>or like this if you use <EM>/etc/crontab</EM></P>
+<PRE>
+ */5 * * * *  mrtg-user  &lt;mrtg-bin&gt;/mrtg &lt;path to mrtg-cfg&gt;/mrtg.cfg \
+                                 --logging /var/log/mrtg.log</PRE>
+<P>You can also run mrtg as a daemon process by adding the line</P>
+<PRE>
+ RunAsDaemon: Yes</PRE>
+<P>to your mrtg configuration file and then creating a startup script in
+your system startup sequence. Unfortunately, adding startup scripts
+differs widely amongst different unix systems. The modern ones normally
+have a directory called <EM>/etc/init.d</EM> or <EM>/etc/rc.d/init.d</EM> where you
+put scripts which starts the process you want to run when the system
+boots. Further you must create a symbolic link in <EM>/etc/rc3.d</EM> or
+<EM>/etc/rc.d/rc?.d</EM> called <EM>S65mrtg</EM> (this is just a sample name
+... it is just important that it starts with S followed by a two digit
+number). If you are not sure about this, make sure you consult the
+documentation of your system to make sure you get this right.</P>
+<P>A <STRONG>minimal</STRONG> script to put into <EM>init.d</EM> might look like this:</P>
+<PRE>
+ #! /bin/sh
+ cd /usr/local/mrtg-2.9.17/bin &amp;&amp; ./mrtg --user=mrtg-user \
+       /home/httpd/mrtg/mrtg.cfg  --logging /var/log/mrtg.log</PRE>
+<P>Note that this will only work with <STRONG>RunAsDaemon: Yes</STRONG> in your
+mrtg.cfg file.</P>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Tobias Oetiker &lt;<A HREF="mailto:oetiker@ee.ethz.ch">oetiker@ee.ethz.ch</A>&gt;</P>
+
+</BODY>
+
+</HTML>

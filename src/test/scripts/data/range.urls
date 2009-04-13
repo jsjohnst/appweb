@@ -1,0 +1,16 @@
+--get --range 0-9 $TEST_HOST/big.txt
+	"0    56789"
+--get --range 1-10 $TEST_HOST/big.txt
+	"    567890"
+--get --range 100-109 $TEST_HOST/big.txt
+	"2    56789"
+--get --range 0-0 $TEST_HOST/big.txt
+	"0"
+--get --range 49990-49999 $TEST_HOST/big.txt
+	"012345678E"
+--get --range 49990- $TEST_HOST/big.txt
+	"012345678END\\n"
+--get --range 49990- $TEST_HOST/big.txt
+	"012345678END\\n"
+--get --range -5 $TEST_HOST/big.txt
+	"8END\\n"

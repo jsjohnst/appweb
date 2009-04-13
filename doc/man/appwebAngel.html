@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+
+<body>
+    <pre>
+APPWEBANGEL(1)                   User Commands                  APPWEBANGEL(1)
+
+<b>NAME</b>
+       appwebAngel - Embedded HTTP Server
+
+<b>SYNOPSIS</b>
+       <b>appwebAngel  </b>[<i>--args  arguments</i>]  [<i>--console</i>]  [<i>--daemon</i>]  [<i>--heartBeat</i>
+       <i>interval</i>] [<i>--home directory</i>] [<i>--install</i>] [<i>--log logFile:level</i>]  [<i>--pro-</i>
+       <i>gram path</i>] [<i>--start</i>] [<i>--stop</i>] [<i>--uninstall</i>]
+
+<b>DESCRIPTION</b>
+       The  appwebAngel  program  is  a  guardian angel process for Appweb. It
+       watches over Appweb to start it and restart  it  should  it  fail.  The
+       angel  is  a  robust,  minimal  program with one job - to ensure Appweb
+       remains available.
+
+<b>OPTIONS</b>
+       <b>--args arguments</b>
+              Arguments to use for the Appweb command line when it starts.
+
+       <b>--console</b>
+              Windows specific option to allow the Angel process  to  interact
+              with the users desktop.
+
+       <b>--daemon</b>
+              Run  the  Angel  as  a  daemon process. This causes the Angel to
+              detach from the current shell and run in the background.
+
+       <b>--heartBeat interval</b>
+              Set the frequency in seconds for the Angel to check  on  Appweb.
+              This  period  should be short enough that Appweb will be quickly
+              restarted should it fail,  but  not  so  short  that  the  Angel
+              process consumes significant CPU resources.  If Appweb dies more
+              than 15 times per hour, the Angel will suspend  restarting  App-
+              web.
+
+       <b>--home directory</b>
+              Set the home directory in which to start Appweb.
+
+       <b>--install</b>
+              Windows  specific  option to install the Angel as a windows ser-
+              vice.
+
+       <b>--l logFile:level</b>
+              Specify a file to use  for  log  messages.  The  level  argument
+              defines  the  message  verbosity. Zero is the least and 9 is the
+              most verbose.
+
+       <b>--program path</b>
+              Define the Appweb program path to execute.
+
+       <b>--stop </b>Windows specific option to stop the Angel service.
+
+       <b>--start</b>
+              Windows specific option to start the Angel service.
+
+       <b>--uninstall</b>
+              Windows specific option to uninstall the Angel as a windows ser-
+              vice.
+
+       <b>-v     </b>Output the product version number.
+
+<b>REPORTING BUGS</b>
+       Report bugs to &amp;ltdev@embedthis.com&amp;gt.
+
+<b>COPYRIGHT</b>
+       Copyright (C) 2003-2009 Embedthis Software.
+
+<b>SEE ALSO</b>
+       appweb
+
+appwebAngel                       March 2009                    APPWEBANGEL(1)
+</pre>
+</body>
+</html>

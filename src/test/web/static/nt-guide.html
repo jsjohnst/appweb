@@ -1,0 +1,300 @@
+<HTML>
+<HEAD>
+<TITLE>doc/nt-guide</TITLE>
+<LINK REV="made" HREF="mailto:karrer@iis.ee.ethz.ch">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#990200" VLINK="#006342"><P><IMG SRC="mrtg-l.png"><IMG SRC="mrtg-m.png"><IMG SRC="mrtg-r.gif"></P>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#prerequisits">PREREQUISITS</A></LI>
+	<LI><A HREF="#installation">INSTALLATION</A></LI>
+	<LI><A HREF="#configuring mrtg">CONFIGURING MRTG</A></LI>
+	<LI><A HREF="#make mrtg run all the time">MAKE MRTG RUN ALL THE TIME</A></LI>
+	<LI><A HREF="#example">EXAMPLE</A></LI>
+	<LI><A HREF="#authors">AUTHORS</A></LI>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>nt-guide - The Windows NT Guide to MRTG 2.9.17</P>
+<P>
+<HR>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<P>Installing MRTG on an Windows NT or Windows 2000 box is not quite as click
+and point as some might want it to be. But then again it is not all that
+difficult if you follow the instructions below.</P>
+<P>
+<HR>
+<H1><A NAME="prerequisits">PREREQUISITS</A></H1>
+<P>To get MRTG to work on Windows NT you need the following:</P>
+<UL>
+<LI>
+A copy of Perl for NT from <A HREF="http://www.ActiveState.com">http://www.ActiveState.com</A> (it must be version
+5.005 or better 5.6).
+<P></P>
+<LI>
+The latest version of MRTG from
+<A HREF="http://people.ee.ethz.ch/~oetiker/webtools/mrtg/pub">http://people.ee.ethz.ch/~oetiker/webtools/mrtg/pub</A> . look for
+mrtg-2.9.17.zip or better. The archive does also contain a precompiled copy
+of rateup.exe for Win32.
+<P></P></UL>
+<P>
+<HR>
+<H1><A NAME="installation">INSTALLATION</A></H1>
+<P>I suggest you do the following from the machine that will be running MRTG,
+which, in this case is also a web server. All examples are for doing things
+to a LOCAL machine.</P>
+<DL>
+<DT><STRONG><A NAME="item_First">First</A></STRONG><BR>
+<DD>
+Unzip MRTG to C:\mrtg-2.9.17 on the WindowsNT machine of your choice.
+<P></P>
+<DT><STRONG><A NAME="item_Next">Next</A></STRONG><BR>
+<DD>
+Install Perl on the same Windows NT machine. You might want to make sure
+that the Perl binary directory is listed in your system path.
+<PRE>
+ C:\Perl\bin;%SystemRoot%\system32;%SystemRoot%;...</PRE>
+<P>You can manually check this by going to [Control Panel]-&gt;[System]-&gt;[Environment]</P>
+<P></P></DL>
+<P>To see if everything is installed properly you can open a Command Shell
+and go into <EM>c:\mrtg-2.9.17\bin</EM>. Type:</P>
+<PRE>
+ perl mrtg</PRE>
+<P>This should give you a friendly error message complaining about the missing mrtg
+configuration file. Now, you have successfully installed mrtg and perl.</P>
+<P>
+<HR>
+<H1><A NAME="configuring mrtg">CONFIGURING MRTG</A></H1>
+<P>Now it is time to walk create a configuration for mrtg. But before we begin you need to know a few things, take an
+opportunity to gather the following information:</P>
+<UL>
+<LI>
+The IP address or hostname of the and snmp port number, (if non standard), of the device you want to monitor.
+<P></P>
+<LI>
+If you want to monitor something other than bytes in and out, you must also know the SNMPOID of what you
+want to monitor.
+<P></P>
+<LI>
+Finally you need to know the read-only SNMP community string
+for your device.  If you don't know it, try <STRONG>public</STRONG>, that is the default.
+<P></P></UL>
+<P>For the rest of this document we will be using device <STRONG>10.10.10.1</STRONG> ( a CISCO
+Catalyst 5000) with Community string <STRONG>public</STRONG>.  We are interested in monitoring
+traffic, and the CPU Load. Let's begin.</P>
+<P>The first thing we do in setting up mrtg is by making a default config file.
+Get to a cmd prompt and change to the <EM>c:\mrtg-2.9.17\bin</EM> directory. Type the
+following command:</P>
+<PRE>
+ perl cfgmaker public@10.10.10.1 --global &quot;WorkDir: c:\www\mrtg&quot; --output mrtg.cfg</PRE>
+<P>This creates an initial MRTG config file for you. Note that in this file all interfaces
+of your router will be stored by number. Unfortunately these numbers are likely to change when ever you
+reconfigure your router. So in order to work around this you can get <EM>cfgmaker</EM> to produce a configuration
+which is based on Ip numbers, or even Interface Descriptions. Check <A HREF="cfgmaker.html">the cfgmaker manpage</A></P>
+<P>If you get an error message complaining about <STRONG>no such name</STRONG> or <STRONG>no
+response</STRONG>, your community name is probably wrong.</P>
+<P>Now, lets take a look at the mrtg.cfg file that was created.</P>
+<P>In Perl a <CODE>#</CODE> is a comment, synonymous with <CODE>REM</CODE> in DOS.</P>
+<P>Add the following to the top of the mrtg.cfg file:</P>
+<PRE>
+ WorkDir: D:\InetPub\wwwroot\MRTG</PRE>
+<P>This is where the web pages are created, usually a web root.</P>
+<PRE>
+ ######################################################################
+ # Description: LCP SUWGB
+ # Contact: Administrator
+ # System Name: LC-Bridge
+ # Location: Here
+ #.....................................................................</PRE>
+<P>TargetDevice's IP Address:Interface Number:Community:IP Address</P>
+<PRE>
+ Target[10.10.10.1.1]: 1:public@10.10.10.1</PRE>
+<P>This is the interface speed (Default is 10 megabits; for 100Mbit devices use 12500000 and so on...)</P>
+<PRE>
+ MaxBytes[10.10.10.1.1]: 1250000</PRE>
+<PRE>
+ Title[10.10.10.1.1]: LC-Bridge (sample.device): ether0</PRE>
+<P>This section determines how the web page headers will look</P>
+<PRE>
+ PageTop[10.10.10.1.1]: &lt;H1&gt;Traffic Analysis for ether0&lt;/H1&gt;
+  &lt;TABLE&gt;
+  &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ether0(1)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;sample.device(10.10.10.1)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+  &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;/TABLE&gt;</PRE>
+<PRE>
+  Target[10.10.10.1.2]: 2:public@10.10.10.1
+  MaxBytes[10.10.10.1.2]: 1250000
+  Title[10.10.10.1.2]: LC-Bridge (): ulink0
+  PageTop[10.10.10.1.2]: &lt;H1&gt;Traffic Analysis for ulink0&lt;/H1&gt;
+   &lt;TABLE&gt;
+   &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+   &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+   &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ulink0(2)&lt;/TD&gt;&lt;/TR&gt;
+   &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;()&lt;/TD&gt;&lt;/TR&gt;
+   &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+   &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+   &lt;/TABLE&gt;</PRE>
+<PRE>
+  #---------------------------------------------------------------</PRE>
+<P>And that is a very basic mrtg config file. You can run this and see your
+results by going into the <EM>c:\mrtg-2.9.17\bin</EM> directory and typing:</P>
+<PRE>
+ perl mrtg mrtg.cfg</PRE>
+<P>It is normal to get errors for the first two times you run this command. The
+errors will alert you about the fact that there have not been any log files
+in existnace before.</P>
+<P>If you take a look at those web pages they are not real exciting, yet. You need
+to have the mrtg files run every five minutes to produce the desired results.
+Just run it again after a few minutes. You should now be able to see the first
+lines in your graphs.</P>
+<P>
+<HR>
+<H1><A NAME="make mrtg run all the time">MAKE MRTG RUN ALL THE TIME</A></H1>
+<P>Starting mrtg by hand every time you want to run it is not going to make you
+happy I guess.</P>
+<P>There is a special option you can set in the mrtg  configuration file so
+so that mrtg will not terminate after it was started. Instead it
+will wait for 5 minutes and then run again.</P>
+<P>Add the option</P>
+<PRE>
+ RunAsDaemon: yes</PRE>
+<P>to your mrtg.cfg file and start it with:</P>
+<PRE>
+ start /Dc:\mrtg-2.9.17\bin wperl mrtg --logging=eventlog mrtg.cfg</PRE>
+<P>If you use <STRONG>wperl</STRONG> instead of <STRONG>perl</STRONG>, no console window will show. MRTG is now
+running in the background. If it runns into problems it will tell you so
+over the EventLog. To stop MRTG, open the taskmanager and terminate the
+<STRONG>wperl.exe</STRONG> process. If mrtg has anything to tell you these messages
+can be found in the eventlog.</P>
+<P>If you put a shortcut with</P>
+<PRE>
+ Target:    wperl mrtg --logging=eventlog mrtg.cfg
+ Start in:  c:\mrtg-2.9.17\bin</PRE>
+<P>into your startup folder, mrtg will now start whever you login to your NT
+box.</P>
+<P>If you do not want to log into your NT box just to start mrtg. Have a look
+at <A HREF="http://www.firedaemon.com/mrtg-howto.html">http://www.firedaemon.com/mrtg-howto.html</A> which describes a free tool to
+start any program as a Service. The pages gives specific instructions for
+mrtg users.</P>
+<P>
+<HR>
+<H1><A NAME="example">EXAMPLE</A></H1>
+<P>Now lets look at a config file to monitor what we wanted to on our mythical
+Cisco Cat 5000 -- utilization on ports 3, 5, 10, and 24, and the CPU Load,
+which will show us nonstandard mrtg configurations as well as more options..</P>
+<PRE>
+ WorkDir: D:\InetPub\wwwroot\MRTG</PRE>
+<PRE>
+ ######################################################################
+ # Description: LCP SUWGB
+ # Contact: Administrator
+ # System Name: LC-Bridge
+ # Location: Here
+ #.....................................................................</PRE>
+<PRE>
+ Target[10.10.10.1.1]: 3:public@10.10.10.1
+ MaxBytes[10.10.10.1.1]: 1250000
+ Title[10.10.10.1.1]: LC-Bridge (sample-device): ether0
+ PageTop[10.10.10.1.1]: &lt;H1&gt;Traffic Analysis for ether0&lt;/H1&gt;
+  &lt;TABLE&gt;
+ &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+ &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+ &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ether0(3)&lt;/TD&gt;&lt;/TR&gt;
+ &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;sample-device(10.10.10.1)&lt;/TD&gt;&lt;/TR&gt;
+ &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+ &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+ &lt;/TABLE&gt;</PRE>
+<PRE>
+ #---------------------------------------------------------------</PRE>
+<PRE>
+ Target[10.10.10.1.2]: 5:public@10.10.10.1
+ MaxBytes[10.10.10.1.2]: 1250000
+ Title[10.10.10.1.2]: LC-Bridge (): ulink0
+ PageTop[10.10.10.1.2]: &lt;H1&gt;Traffic Analysis for ulink0&lt;/H1&gt;
+  &lt;TABLE&gt;
+  &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ulink0(5)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;()&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+  &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;/TABLE&gt;</PRE>
+<PRE>
+ #---------------------------------------------------------------</PRE>
+<PRE>
+ Target[10.10.10.1.1]: 10:public@10.10.10.1
+ MaxBytes[10.10.10.1.1]: 1250000
+ Title[10.10.10.1.1]: LC-Bridge (sample-device): ether0
+ PageTop[10.10.10.1.1]: &lt;H1&gt;Traffic Analysis for ether0&lt;/H1&gt;
+  &lt;TABLE&gt;
+  &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ether0(10)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;sample-device(10.10.10.1)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+  &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;/TABLE&gt;</PRE>
+<PRE>
+ #---------------------------------------------------------------</PRE>
+<PRE>
+ Target[10.10.10.1.2]: 24:public@10.10.10.1
+ MaxBytes[10.10.10.1.2]: 1250000
+ Title[10.10.10.1.2]: LC-Bridge (): ulink0
+ PageTop[10.10.10.1.2]: &lt;H1&gt;Traffic Analysis for ulink0&lt;/H1&gt;
+  &lt;TABLE&gt;
+  &lt;TR&gt;&lt;TD&gt;System:&lt;/TD&gt;&lt;TD&gt;LC-Bridge inAndover&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Maintainer:&lt;/TD&gt;&lt;TD&gt;Administrator&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Interface:&lt;/TD&gt;&lt;TD&gt;ulink0(24)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;IP:&lt;/TD&gt;&lt;TD&gt;()&lt;/TD&gt;&lt;/TR&gt;
+  &lt;TR&gt;&lt;TD&gt;Max Speed:&lt;/TD&gt;
+  &lt;TD&gt;1250.0 kBytes/s (ethernetCsmacd)&lt;/TD&gt;&lt;/TR&gt;
+  &lt;/TABLE&gt;</PRE>
+<PRE>
+ #---------------------------------------------------------------</PRE>
+<PRE>
+ # Router CPU load %
+ Target[cpu.1]:1.3.6.1.4.1.9.2.1.58.0&amp;1.3.6.1.4.1.9.2.1.58.0:public@10.10.10.1
+ RouterUptime[cpu.1]: public@10.10.10.1
+ MaxBytes[cpu.1]: 100
+ Title[cpu.1]: CPU LOAD
+ PageTop[cpu.1]: &lt;H1&gt;CPU Load %&lt;/H1&gt;
+ Unscaled[cpu.1]: ymwd
+ ShortLegend[cpu.1]: %
+ XSize[cpu.1]: 380
+ YSize[cpu.1]: 100
+ YLegend[cpu.1]: CPU Utilization
+ Legend1[cpu.1]: CPU Utilization in % (Load)
+ Legend2[cpu.1]: CPU Utilization in % (Load)
+ Legend3[cpu.1]:
+ Legend4[cpu.1]:
+ LegendI[cpu.1]:
+ LegendO[cpu.1]: &amp;nbsp;Usage
+ Options[cpu.1]: gauge</PRE>
+<P>This is a nice example of how to monitor any SNMP device if you know what OID
+you want to use. Once again, For an explanation of the more advance features of
+mrtg, please see Tobias's documentation.</P>
+<P>
+<HR>
+<H1><A NAME="authors">AUTHORS</A></H1>
+<P>David S. Divins &lt;<A HREF="mailto:ddivins@moon.jic.com">ddivins@moon.jic.com</A>&gt;,
+Steve Pierce &lt;<A HREF="mailto:MRTG@HDL.com">MRTG@HDL.com</A>&gt;,
+Tobi Oeitker &lt;<A HREF="mailto:oetiker@ee.ethz.ch">oetiker@ee.ethz.ch</A>&gt;</P>
+
+</BODY>
+
+</HTML>
